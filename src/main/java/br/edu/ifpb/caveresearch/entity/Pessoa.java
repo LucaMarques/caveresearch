@@ -1,5 +1,6 @@
 package br.edu.ifpb.caveresearch.entity;
 
+import br.edu.ifpb.caveresearch.embeddable.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,10 +11,8 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "tb_pessoa",
-        uniqueConstraints = { @UniqueConstraint(name = "uk_pessoa_cpf", columnNames = "cpf")}
-)
-public class Pessoa {
+@Table(name = "tb_pessoa")
+public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pessoa", nullable = false)
@@ -25,7 +24,7 @@ public class Pessoa {
     @Column(name = "cpf_pessoa", nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @Column(name = "dt_nascimento_pessoa")
+    @Column(name = "dt_nascimento_pessoa", nullable = false)
     private LocalDate dataNascimento;
 
     @Column(name = "email_pessoa", nullable = false)

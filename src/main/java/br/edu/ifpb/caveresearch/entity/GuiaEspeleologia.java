@@ -14,7 +14,7 @@ public class GuiaEspeleologia extends Pessoa {
     @Column(name = "num_credencial", nullable = false, unique = true)
     private Integer numCredencial;
 
-    @Column(name = "nivel_certificacao", nullable = false)
+    @Column(name = "nivel_certificacao", nullable = false, length = 50)
     private String nivelCertificacao;
 
     @Column(name = "data_validade_certificacao", nullable = false)

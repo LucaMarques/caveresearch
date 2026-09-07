@@ -14,10 +14,10 @@ public class Pesquisador extends Pessoa {
     @Column(name = "rg_institucional", nullable = false, unique = true)
     private Integer registroInstitucional;
 
-    @Column(name = "area_pesquisa", nullable = false,)
+    @Column(name = "area_pesquisa", nullable = false, length = 100)
     private String areaPrincipalPesquisa;
 
-    @Column(name = "titulacao", nullable = false)
+    @Column(name = "titulacao", nullable = false, length = 50)
     private String titulacao;
 
     @Column(name = "valor_diario_bolsa", nullable = false, precision = 10, scale = 2)
