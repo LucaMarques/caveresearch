@@ -16,7 +16,7 @@ public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pessoa", nullable = false)
-    private Long id;
+    private Long idPessoa;
 
     @Column(name = "nome_pessoa", nullable = false, length = 50)
     private String nome;

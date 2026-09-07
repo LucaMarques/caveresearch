@@ -17,7 +17,7 @@ public class ColetaCientifica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_coleta_cientifica")
-    private Long id;
+    private Long idColeta;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pesquisador", nullable = false)
