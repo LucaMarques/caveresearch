@@ -82,7 +82,7 @@ class Expedicao {
     +LocalDateTime terminoPrevisto
     +BigDecimal orcamentoAprovado
     +BigDecimal custoRealizado
-    +Integer maxParticipantes
+    +Integer quantidadeMaximaParticipantes
     +SituacaoExpedicao situacao
     +boolean cancelamentoEmergencial
 }

@@ -8,7 +8,7 @@
     <artifactId>caveresearch</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>caveresearch</name>
-    <description>Sistema de expedicoes subterraneas.</description>
+    <description>Sistema de expedições subterrâneas.</description>
 
     <properties>
         <java.version>25</java.version>
