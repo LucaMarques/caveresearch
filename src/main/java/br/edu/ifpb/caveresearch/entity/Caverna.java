@@ -17,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "tb_caverna")
 public class Caverna {
-    // terminar implementacao
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
