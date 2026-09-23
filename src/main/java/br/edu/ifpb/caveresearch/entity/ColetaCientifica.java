@@ -1,5 +1,6 @@
 package br.edu.ifpb.caveresearch.entity;
 
+import br.edu.ifpb.caveresearch.enums.SituacaoValidacaoColeta;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,18 +19,6 @@ public class ColetaCientifica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_coleta_cientifica")
     private Long idColeta;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_pesquisador", nullable = false)
-    private Pesquisador pesquisadorResponsavel;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_setor", nullable = false)
-    private SetorPesquisa setor;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_expedicao", nullable = false)
-    private Expedicao expedicao;
 
     @Column(name = "data_hora_coleta", nullable = false)
     private LocalDateTime dataHoraColeta;
@@ -52,9 +41,29 @@ public class ColetaCientifica {
     @Column(name = "observacoes", length = 500)
     private String observacoes;
 
-    @Column(name = "validada", nullable = false)
-    private boolean validada;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "situacao_validacao", nullable = false, length = 30)
+    private SituacaoValidacaoColeta situacaoDeValidacao;
 
     @OneToMany(mappedBy = "coleta", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Amostra> amostras = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_pessoa", foreignKey = @ForeignKey(name = "fk_coleta_pesquisador"), nullable = false)
+    private Pesquisador pesquisadorResponsavel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_setor", foreignKey = @ForeignKey(name = "fk_coleta_setor_pesquisa"), nullable = false)
+    private SetorPesquisa setor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_expedicao", foreignKey = @ForeignKey(name = "fk_coleta_expedicao"), nullable = false)
+    private Expedicao expedicao;
+
+    public void addAmostra(Amostra amostra) {
+        if (amostra != null && this.amostras != null) {
+            this.amostras.add(amostra);
+            amostra.setColeta(this);
+        }
+    }
 }
