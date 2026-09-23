@@ -9,10 +9,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "tb_guia_espeleologia")
+@Table(name = "tb_pessoa_guia_espeleologia_joined")
 public class GuiaEspeleologia extends Pessoa {
     @Column(name = "num_credencial", nullable = false, unique = true)
-    private Integer numCredencial;
+    private Integer numeroCredencial;
 
     @Column(name = "nivel_certificacao", nullable = false, length = 50)
     private String nivelCertificacao;
