@@ -22,10 +22,6 @@ public class Amostra {
     @Column(name = "codigo_campo", nullable = false, unique = true, length = 50)
     private String codigoCampo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "categoria", nullable = false)
-    private CategoriaAmostra categoria;
-
     @Column(name = "massa_volume", nullable = false, precision = 10, scale = 3)
     private BigDecimal massaOuVolume;
 
@@ -34,6 +30,10 @@ public class Amostra {
 
     @Column(name = "data_acondicionamento", nullable = false)
     private LocalDate dataAcondicionamento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categoria_amostra", nullable = false)
+    private CategoriaAmostra categoria;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "condicao_conservacao", nullable = false)
@@ -51,6 +51,6 @@ public class Amostra {
     private String observacoes;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_coleta", nullable = false)
+    @JoinColumn(name = "id_coleta", foreignKey = @ForeignKey(name = "fk_amostra_coleta"), nullable = false)
     private ColetaCientifica coleta;
 }

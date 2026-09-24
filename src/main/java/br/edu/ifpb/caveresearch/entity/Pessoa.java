@@ -18,7 +18,7 @@ public abstract class Pessoa {
     @Column(name = "id_pessoa", nullable = false)
     private Long idPessoa;
 
-    @Column(name = "nome_pessoa", nullable = false, length = 50)
+    @Column(name = "nome_pessoa", nullable = false, length = 100)
     private String nome;
 
     @Column(name = "cpf_pessoa", nullable = false, unique = true, length = 11)
@@ -27,7 +27,7 @@ public abstract class Pessoa {
     @Column(name = "dt_nascimento_pessoa", nullable = false)
     private LocalDate dataNascimento;
 
-    @Column(name = "email_pessoa", nullable = false)
+    @Column(name = "email_pessoa", nullable = false, length = 254)
     private String email;
 
     @Column(name = "telefone_pessoa", nullable = false, length = 20)
