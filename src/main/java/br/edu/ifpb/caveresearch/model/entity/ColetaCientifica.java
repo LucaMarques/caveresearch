@@ -1,6 +1,6 @@
-package br.edu.ifpb.caveresearch.entity;
+package br.edu.ifpb.caveresearch.model.entity;
 
-import br.edu.ifpb.caveresearch.enums.SituacaoValidacaoColeta;
+import br.edu.ifpb.caveresearch.model.enums.SituacaoValidacaoColeta;
 import jakarta.persistence.*;
 import lombok.*;
 

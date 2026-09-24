@@ -1,7 +1,7 @@
-package br.edu.ifpb.caveresearch.entity;
+package br.edu.ifpb.caveresearch.model.entity;
 
-import br.edu.ifpb.caveresearch.enums.CategoriaAmostra;
-import br.edu.ifpb.caveresearch.enums.CondicaoConservacao;
+import br.edu.ifpb.caveresearch.model.enums.CategoriaAmostra;
+import br.edu.ifpb.caveresearch.model.enums.CondicaoConservacao;
 import jakarta.persistence.*;
 import lombok.*;
 

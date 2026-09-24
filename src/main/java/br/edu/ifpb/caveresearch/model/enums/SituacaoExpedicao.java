@@ -1,4 +1,4 @@
-package br.edu.ifpb.caveresearch.enums;
+package br.edu.ifpb.caveresearch.model.enums;
 
 public enum SituacaoExpedicao {
     PLANEJADA,

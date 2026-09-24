@@ -1,4 +1,4 @@
-package br.edu.ifpb.caveresearch.embeddable;
+package br.edu.ifpb.caveresearch.model.embeddable;
 
 import jakarta.persistence.*;
 import lombok.*;

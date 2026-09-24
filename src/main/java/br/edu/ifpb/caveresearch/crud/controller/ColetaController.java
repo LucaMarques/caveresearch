@@ -1,18 +1,11 @@
 package br.edu.ifpb.caveresearch.crud.controller;
 
-import br.edu.ifpb.caveresearch.entity.Amostra;
-import br.edu.ifpb.caveresearch.entity.ColetaCientifica;
+import br.edu.ifpb.caveresearch.model.entity.ColetaCientifica;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.UserTransaction;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 public class ColetaController {
     private final EntityManagerFactory emf;
