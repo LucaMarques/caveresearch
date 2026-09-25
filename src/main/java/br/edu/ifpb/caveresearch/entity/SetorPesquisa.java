@@ -26,10 +26,10 @@ public class SetorPesquisa {
     @Column(name = "dificuldade", nullable = false)
     private NivelDificuldadeSetor dificuldade;
 
-    @Column(name = "profundidade_maxima", precision = 10, scale = 2) //pode ou não ser null
+    @Column(name = "profundidade_maxima", precision = 10, scale = 2)
     private BigDecimal profundidadeMaxima;
 
-    @Column(name = "extensao_aproximada", precision = 10, scale = 2) //pode ou não ser null
+    @Column(name = "extensao_aproximada", nullable = false , precision = 10, scale = 2)
     private BigDecimal extensaoAproximada;
 
     @Column(name = "descricao", nullable = false, length = 500)
@@ -37,6 +37,10 @@ public class SetorPesquisa {
 
     @Column(name = "risco_inundacao", nullable = false)
     private Boolean riscoInundacao;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "situacao_setor",  nullable = false)
+    private SituacaoSetor situacaoSetor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_caverna", nullable = false)
