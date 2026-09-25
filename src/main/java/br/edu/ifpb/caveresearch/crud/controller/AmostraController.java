@@ -1,37 +1,38 @@
 package br.edu.ifpb.caveresearch.crud.controller;
 
-import br.edu.ifpb.caveresearch.model.entity.ColetaCientifica;
+import br.edu.ifpb.caveresearch.model.entity.Amostra;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.UserTransaction;
 
 import java.util.List;
 
-public class ColetaController {
+public class AmostraController {
     private final EntityManagerFactory emf;
 
-    public ColetaController(EntityManagerFactory emf) {
+    public AmostraController(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public void criar(ColetaCientifica coleta) {
+    public void criar(Amostra amostra) {
         UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
+
         EntityManager em = null;
 
-        try{
+        try {
             tx.begin();
 
             em = emf.createEntityManager();
             em.joinTransaction();
 
-            em.persist(coleta);
+            em.persist(amostra);
 
             tx.commit();
         } catch (Exception e) {
             try {
                 tx.rollback();
             } catch (Exception rollbackException) {
-                e.addSuppressed(rollbackException);
+                e.addSuppressed((rollbackException));
             }
             throw new RuntimeException("Erro ao executar transação JTA", e);
         } finally {
@@ -41,10 +42,10 @@ public class ColetaController {
         }
     }
 
-    public ColetaCientifica buscarPorId(Long id) {
-        EntityManager em =  emf.createEntityManager();
+    public Amostra buscarPorId(Long id) {
+        EntityManager em = emf.createEntityManager();
         try {
-            return em.find(ColetaCientifica.class, id);
+            return em.find(Amostra.class, id);
         } finally {
             if (em != null) {
                 em.close();
@@ -52,45 +53,44 @@ public class ColetaController {
         }
     }
 
-    public boolean atualizar(Long id, ColetaCientifica coletaAtualizada) {
+    public boolean atualizar(Long id, Amostra amostraAtualizada) {
         UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
+
         EntityManager em = null;
 
-        try{
+        try {
             tx.begin();
 
             em = emf.createEntityManager();
+
             em.joinTransaction();
 
-            ColetaCientifica coleta = em.find(ColetaCientifica.class, id);
+            Amostra amostra = em.find(Amostra.class, id);
 
-            if (coleta == null) {
+            if (amostra == null) {
                 tx.rollback();
                 return false;
             }
 
-            coleta.setDataHoraColeta(coletaAtualizada.getDataHoraColeta());
-            coleta.setMetodoEmpregado(coletaAtualizada.getMetodoEmpregado());
-            coleta.setAmostras(coletaAtualizada.getAmostras());
-            coleta.setDescricaoPonto(coletaAtualizada.getDescricaoPonto());
-            coleta.setTemperatura(coletaAtualizada.getTemperatura());
-            coleta.setUmidadeRelativa(coletaAtualizada.getUmidadeRelativa());
-            coleta.setProfundidade(coletaAtualizada.getProfundidade());
-            coleta.setObservacoes(coletaAtualizada.getObservacoes());
-            coleta.setSituacaoDeValidacao(coletaAtualizada.getSituacaoDeValidacao());
-            coleta.setPesquisadorResponsavel(coletaAtualizada.getPesquisadorResponsavel());
-            coleta.setSetor(coletaAtualizada.getSetor());
-            coleta.setExpedicao(coletaAtualizada.getExpedicao());
+            amostra.setCodigoCampo(amostraAtualizada.getCodigoCampo());
+            amostra.setMassaOuVolume(amostraAtualizada.getMassaOuVolume());
+            amostra.setUnidadeMedida(amostraAtualizada.getUnidadeMedida());
+            amostra.setDataAcondicionamento(amostraAtualizada.getDataAcondicionamento());
+            amostra.setCategoria(amostraAtualizada.getCategoria());
+            amostra.setCondicaoConservacao(amostraAtualizada.getCondicaoConservacao());
+            amostra.setFotografia(amostraAtualizada.getFotografia());
+            amostra.setMaterialPerigoso(amostraAtualizada.getMaterialPerigoso());
+            amostra.setObservacoes(amostraAtualizada.getObservacoes());
+            amostra.setColeta(amostraAtualizada.getColeta());
 
             tx.commit();
             return true;
         } catch (Exception e) {
             try {
                 tx.rollback();
-            } catch (Exception rollbackException) {
+            } catch (Exception rollbackException)  {
                 e.addSuppressed(rollbackException);
             }
-
             throw new RuntimeException("Erro ao executar transação JTA", e);
         } finally {
             if (em != null) {
@@ -109,14 +109,14 @@ public class ColetaController {
             em = emf.createEntityManager();
             em.joinTransaction();
 
-            ColetaCientifica coleta = em.find(ColetaCientifica.class, id);
+            Amostra amostra = em.find(Amostra.class, id);
 
-            if (coleta == null) {
+            if (amostra == null) {
                 tx.rollback();
                 return false;
             }
 
-            em.remove(coleta);
+            em.remove(amostra);
             tx.commit();
             return true;
         } catch (Exception e) {
@@ -133,14 +133,16 @@ public class ColetaController {
         }
     }
 
-    public List<ColetaCientifica> listarTodos() {
+    public List<Amostra> listarTodos() {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery(
-                    "select c from ColetaCientifica c order by c.idColeta",
-                    ColetaCientifica.class).getResultList();
+                    "select a from Amostra a order by c.idAmostra",
+                    Amostra.class).getResultList();
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 }
