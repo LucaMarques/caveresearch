@@ -309,7 +309,7 @@ Em `Amostra`, o campo `coleta` usa `@ManyToOne` e `@JoinColumn(nullable = false)
 Portanto, a chave estrangeira pertence a `tb_amostra` e **`Amostra` é o lado proprietário**. 
 Um método de inclusão deve atualizar os dois lados em memória: adicionar a amostra à lista e executar `amostra.setColeta(this)`.
 A coleção é carregada sob demanda, pois listar coletas não exige recuperar todas as suas amostras. 
-`cascade = CascadeType.ALL` e `orphanRemoval = true` expressam a decisão de que as amostras têm ciclo de vida dependente da coleta: ao persistir a coleta, as amostras associadas podem ser persistidas junto; 
+`cascade = CascadeType.ALL` e `orphanRemoval = true` expressam a decisão de que as amostras têm ciclo de vida dependente da coleta: ao persistir a coleta, as amostras associadas podem ser persistidas junto. 
 ao remover uma amostra da coleção, ela pode ser excluída do banco. Essa escolha só é adequada se uma amostra não puder continuar existindo sem sua coleta. 
 Ao atualizar, deve-se modificar a coleção gerenciada em vez de substituí-la com `setAmostras(...)`, a retirada de um elemento significa exclusão. 
 Não se aplica essa cascata às associações com `Pesquisador`, `SetorPesquisa` e `Expedicao`, que existem independentemente da coleta.

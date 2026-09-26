@@ -14,7 +14,7 @@ public class AmostraController {
         this.emf = emf;
     }
 
-    public void criar(Amostra amostra) {
+    public void criarAmostra(Amostra amostra) {
         UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
 
         EntityManager em = null;
@@ -42,7 +42,7 @@ public class AmostraController {
         }
     }
 
-    public Amostra buscarPorId(Long id) {
+    public Amostra buscarPorAmostra(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
             return em.find(Amostra.class, id);
@@ -53,7 +53,7 @@ public class AmostraController {
         }
     }
 
-    public boolean atualizar(Long id, Amostra amostraAtualizada) {
+    public boolean atualizarAmostra(Long id, Amostra amostraAtualizada) {
         UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
 
         EntityManager em = null;
@@ -79,7 +79,7 @@ public class AmostraController {
             amostra.setCategoria(amostraAtualizada.getCategoria());
             amostra.setCondicaoConservacao(amostraAtualizada.getCondicaoConservacao());
             amostra.setFotografia(amostraAtualizada.getFotografia());
-            amostra.setMaterialPerigoso(amostraAtualizada.getMaterialPerigoso());
+            amostra.setMaterialPerigoso(amostraAtualizada .isMaterialPerigoso());
             amostra.setObservacoes(amostraAtualizada.getObservacoes());
             amostra.setColeta(amostraAtualizada.getColeta());
 
@@ -99,7 +99,7 @@ public class AmostraController {
         }
     }
 
-    public boolean apagar(Long id) {
+    public boolean apagarAmostra(Long id) {
         UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
         EntityManager em = null;
 
@@ -133,11 +133,11 @@ public class AmostraController {
         }
     }
 
-    public List<Amostra> listarTodos() {
+    public List<Amostra> listarAmostras() {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery(
-                    "select a from Amostra a order by c.idAmostra",
+                    "select a from Amostra a order by a.idAmostra",
                     Amostra.class).getResultList();
         } finally {
             if (em != null) {

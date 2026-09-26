@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -38,4 +40,10 @@ public abstract class Pessoa {
 
     @Embedded
     private Endereco endereco;
+
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
+    private List<ParticipacaoExpedicao> participacoes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pessoaResponsavel", fetch = FetchType.LAZY)
+    private List<UtilizacaoEquipamento> utilizacoesEquipamento = new ArrayList<>();
 }

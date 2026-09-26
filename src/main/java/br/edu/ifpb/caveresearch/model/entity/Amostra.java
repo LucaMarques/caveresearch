@@ -53,4 +53,8 @@ public class Amostra {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_coleta", foreignKey = @ForeignKey(name = "fk_amostra_coleta"), nullable = false)
     private ColetaCientifica coleta;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "'id_expedicao", foreignKey = @ForeignKey(name = "fk_amostra_expedicao"))
+    private Expedicao expedicao;
 }

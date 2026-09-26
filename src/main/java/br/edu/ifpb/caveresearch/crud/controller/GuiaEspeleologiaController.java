@@ -1,106 +1,23 @@
 package br.edu.ifpb.caveresearch.crud.controller;
 
-import br.edu.ifpb.caveresearch.model.entity.ColetaCientifica;
+import br.edu.ifpb.caveresearch.model.entity.GuiaEspeleologia;
+import jakarta.transaction.UserTransaction;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.transaction.UserTransaction;
 
 import java.util.List;
 
-public class ColetaController {
+public class GuiaEspeleologiaController {
+
     private final EntityManagerFactory emf;
 
-    public ColetaController(EntityManagerFactory emf) {
+    public GuiaEspeleologiaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public void criarColeta(ColetaCientifica coleta) {
+    public void criarGuiaEspeleologia(GuiaEspeleologia guia) {
         UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
-        EntityManager em = null;
 
-        try{
-            tx.begin();
-
-            em = emf.createEntityManager();
-            em.joinTransaction();
-
-            em.persist(coleta);
-
-            tx.commit();
-        } catch (Exception e) {
-            try {
-                tx.rollback();
-            } catch (Exception rollbackException) {
-                e.addSuppressed(rollbackException);
-            }
-            throw new RuntimeException("Erro ao executar transação JTA", e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    public ColetaCientifica buscarPorColeta(Long id) {
-        EntityManager em =  emf.createEntityManager();
-        try {
-            return em.find(ColetaCientifica.class, id);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    public boolean atualizarColeta(Long id, ColetaCientifica coletaAtualizada) {
-        UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
-        EntityManager em = null;
-
-        try{
-            tx.begin();
-
-            em = emf.createEntityManager();
-            em.joinTransaction();
-
-            ColetaCientifica coleta = em.find(ColetaCientifica.class, id);
-
-            if (coleta == null) {
-                tx.rollback();
-                return false;
-            }
-
-            coleta.setDataHoraColeta(coletaAtualizada.getDataHoraColeta());
-            coleta.setMetodoEmpregado(coletaAtualizada.getMetodoEmpregado());
-            coleta.setAmostras(coletaAtualizada.getAmostras());
-            coleta.setDescricaoPonto(coletaAtualizada.getDescricaoPonto());
-            coleta.setTemperatura(coletaAtualizada.getTemperatura());
-            coleta.setUmidadeRelativa(coletaAtualizada.getUmidadeRelativa());
-            coleta.setProfundidade(coletaAtualizada.getProfundidade());
-            coleta.setObservacoes(coletaAtualizada.getObservacoes());
-            coleta.setSituacaoDeValidacao(coletaAtualizada.getSituacaoDeValidacao());
-            coleta.setPesquisadorResponsavel(coletaAtualizada.getPesquisadorResponsavel());
-            coleta.setSetor(coletaAtualizada.getSetor());
-            coleta.setExpedicao(coletaAtualizada.getExpedicao());
-
-            tx.commit();
-            return true;
-        } catch (Exception e) {
-            try {
-                tx.rollback();
-            } catch (Exception rollbackException) {
-                e.addSuppressed(rollbackException);
-            }
-
-            throw new RuntimeException("Erro ao executar transação JTA", e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    public boolean apagarColeta(Long id) {
-        UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
         EntityManager em = null;
 
         try {
@@ -109,23 +26,19 @@ public class ColetaController {
             em = emf.createEntityManager();
             em.joinTransaction();
 
-            ColetaCientifica coleta = em.find(ColetaCientifica.class, id);
+            em.persist(guia);
 
-            if (coleta == null) {
-                tx.rollback();
-                return false;
-            }
-
-            em.remove(coleta);
             tx.commit();
-            return true;
         } catch (Exception e) {
             try {
                 tx.rollback();
             } catch (Exception rollbackException) {
                 e.addSuppressed(rollbackException);
             }
-            throw new RuntimeException("Erro ao executar transação JTA", e);
+
+            throw new RuntimeException(
+                    "Erro ao executar transação JTA", e
+            );
         } finally {
             if (em != null) {
                 em.close();
@@ -133,14 +46,123 @@ public class ColetaController {
         }
     }
 
-    public List<ColetaCientifica> listarColetas() {
+    public GuiaEspeleologia buscarPorGuiaEspeleologia(Long id) {
         EntityManager em = emf.createEntityManager();
+
+        try {
+            return em.find(GuiaEspeleologia.class, id);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public boolean atualizarGuiaEspeleologia(Long id, GuiaEspeleologia guiaAtualizado) {
+        UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
+
+        EntityManager em = null;
+
+        try {
+            tx.begin();
+
+            em = emf.createEntityManager();
+            em.joinTransaction();
+
+            GuiaEspeleologia guia = em.find(GuiaEspeleologia.class, id);
+
+            if (guia == null) {
+                tx.rollback();
+                return false;
+            }
+
+            // Atributos herdados de Pessoa
+            guia.setNome(guiaAtualizado.getNome());
+            guia.setCpf(guiaAtualizado.getCpf());
+            guia.setDataNascimento(guiaAtualizado.getDataNascimento());
+            guia.setEmail(guiaAtualizado.getEmail());
+            guia.setTelefone(guiaAtualizado.getTelefone());
+            guia.setSituacaoAtiva(guiaAtualizado.isSituacaoAtiva());
+            guia.setEndereco(guiaAtualizado.getEndereco());
+
+            // Atributos específicos de GuiaEspeleologia
+            guia.setNumeroCredencial(guiaAtualizado.getNumeroCredencial());
+            guia.setNivelCertificacao(guiaAtualizado.getNivelCertificacao());
+            guia.setDataValidadeCertificacao(guiaAtualizado.getDataValidadeCertificacao());
+            guia.setQtdExpedicoesConcluidas(guiaAtualizado.getQtdExpedicoesConcluidas());
+
+            tx.commit();
+            return true;
+
+        } catch (Exception e) {
+            try {
+                tx.rollback();
+            } catch (Exception rollbackException) {
+                e.addSuppressed(rollbackException);
+            }
+
+            throw new RuntimeException("Erro ao executar transação JTA", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public boolean apagarGuiaEspeleologia(Long id) {
+        UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
+
+        EntityManager em = null;
+
+        try {
+            tx.begin();
+
+            em = emf.createEntityManager();
+            em.joinTransaction();
+
+            GuiaEspeleologia guia = em.find(GuiaEspeleologia.class, id);
+
+            if (guia == null) {
+                tx.rollback();
+                return false;
+            }
+
+            em.remove(guia);
+
+            tx.commit();
+            return true;
+
+        } catch (Exception e) {
+            try {
+                tx.rollback();
+            } catch (Exception rollbackException) {
+                e.addSuppressed(rollbackException);
+            }
+
+            throw new RuntimeException("Erro ao executar transação JTA", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public List<GuiaEspeleologia> listarTodosGuiasEspeleologia() {
+        EntityManager em = emf.createEntityManager();
+
         try {
             return em.createQuery(
-                    "select c from ColetaCientifica c order by c.idColeta",
-                    ColetaCientifica.class).getResultList();
+                    """
+                    select g
+                    from GuiaEspeleologia g
+                    order by g.idPessoa
+                    """,
+                    GuiaEspeleologia.class
+            ).getResultList();
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 }
