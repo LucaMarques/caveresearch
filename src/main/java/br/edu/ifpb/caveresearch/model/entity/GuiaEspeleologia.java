@@ -1,4 +1,4 @@
-package br.edu.ifpb.caveresearch.entity;
+package br.edu.ifpb.caveresearch.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

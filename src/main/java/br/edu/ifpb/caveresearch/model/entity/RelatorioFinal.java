@@ -1,6 +1,6 @@
-package br.edu.ifpb.caveresearch.entity;
+package br.edu.ifpb.caveresearch.model.entity;
 
-import br.edu.ifpb.caveresearch.enums.SituacaoAutorizacao;
+import br.edu.ifpb.caveresearch.model.enums.SituacaoRelatorio;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,36 +24,36 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "tb_autorizacao_ambiental")
-public class AutorizacaoAmbiental {
+@Table(name = "tb_relatorio_final")
+public class RelatorioFinal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_autorizacao_ambiental", nullable = false)
-    private Long idAutorizacaoAmbiental;
+    @Column(name = "id_relatorio_final", nullable = false)
+    private Long idRelatorioFinal;
 
-    @Column(name = "numero", nullable = false, unique = true, length = 50)
-    private String numero;
+    @Column(name = "titulo", nullable = false, length = 100)
+    private String titulo;
 
-    @Column(name = "orgao_emissor", nullable = false, length = 100)
-    private String orgaoEmissor;
+    @Column(name = "resumo", nullable = false, length = 500)
+    private String resumo;
 
-    @Column(name = "data_emissao", nullable = false)
-    private LocalDate dataEmissao;
+    @Column(name = "data_submissao", nullable = false)
+    private LocalDate dataSubmissao;
 
-    @Column(name = "data_validade", nullable = false)
-    private LocalDate dataValidade;
+    @Column(name = "numero_total_paginas", nullable = false)
+    private Integer numeroTotalPaginas;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "situacao", nullable = false)
-    private SituacaoAutorizacao situacao;
-
-    @Column(name = "observacoes", length = 500)
-    private String observacoes;
+    private SituacaoRelatorio situacao;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "arquivo_pdf_assinado")
-    private byte[] arquivoPdfAssinado;
+    @Column(name = "arquivo_completo")
+    private byte[] arquivoCompleto;
+
+    @Column(name = "publicacao_autorizada", nullable = false)
+    private boolean publicacaoAutorizada;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_expedicao", nullable = false, unique = true)

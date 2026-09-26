@@ -1,10 +1,12 @@
-package br.edu.ifpb.caveresearch.entity;
+package br.edu.ifpb.caveresearch.model.entity;
 
-import br.edu.ifpb.caveresearch.embeddable.Endereco;
+import br.edu.ifpb.caveresearch.model.embeddable.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -38,4 +40,10 @@ public abstract class Pessoa {
 
     @Embedded
     private Endereco endereco;
+
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
+    private List<ParticipacaoExpedicao> participacoes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pessoaResponsavel", fetch = FetchType.LAZY)
+    private List<UtilizacaoEquipamento> utilizacoesEquipamento = new ArrayList<>();
 }

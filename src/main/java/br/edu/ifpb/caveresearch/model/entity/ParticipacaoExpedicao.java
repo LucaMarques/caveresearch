@@ -1,6 +1,6 @@
-package br.edu.ifpb.caveresearch.entity;
+package br.edu.ifpb.caveresearch.model.entity;
 
-import br.edu.ifpb.caveresearch.enums.PapelParticipante;
+import br.edu.ifpb.caveresearch.model.enums.PapelParticipante;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

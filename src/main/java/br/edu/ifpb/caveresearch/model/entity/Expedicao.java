@@ -1,6 +1,6 @@
-package br.edu.ifpb.caveresearch.entity;
+package br.edu.ifpb.caveresearch.model.entity;
 
-import br.edu.ifpb.caveresearch.enums.SituacaoExpedicao;
+import br.edu.ifpb.caveresearch.model.enums.SituacaoExpedicao;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

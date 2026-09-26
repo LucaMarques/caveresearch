@@ -1,7 +1,7 @@
-package br.edu.ifpb.caveresearch.entity;
+package br.edu.ifpb.caveresearch.model.entity;
 
-import br.edu.ifpb.caveresearch.enums.CategoriaAmostra;
-import br.edu.ifpb.caveresearch.enums.CondicaoConservacao;
+import br.edu.ifpb.caveresearch.model.enums.CategoriaAmostra;
+import br.edu.ifpb.caveresearch.model.enums.CondicaoConservacao;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -53,4 +53,8 @@ public class Amostra {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_coleta", foreignKey = @ForeignKey(name = "fk_amostra_coleta"), nullable = false)
     private ColetaCientifica coleta;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "'id_expedicao", foreignKey = @ForeignKey(name = "fk_amostra_expedicao"))
+    private Expedicao expedicao;
 }
