@@ -30,7 +30,7 @@ public class MovimentacaoEquipamento {
     @Column(name = "estado_saida", nullable = false)
     private String estadoSaida;
 
-    @Column(name = "estado_retorno")
+    @Column(name = "estado_retorno", nullable = false)
     private String estadoRetorno;
 
     @Column(name = "custo_avaria")
@@ -41,7 +41,7 @@ public class MovimentacaoEquipamento {
     private Equipamento equipamento;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_expedicao", nullable = false)
+    @JoinColumn(name = "expedicao", nullable = false)
     private Expedicao expedicao;
 
     @ManyToOne(fetch = FetchType.LAZY)

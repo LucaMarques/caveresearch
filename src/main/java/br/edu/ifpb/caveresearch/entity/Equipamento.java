@@ -1,6 +1,6 @@
 package br.edu.ifpb.caveresearch.entity;
 
-import br.edu.ifpb.caveresearch.enums.SituacaoOperacionalEquipamento;
+import br.edu.ifpb.caveresearch.enums.SituacaoEquipamento;
 import br.edu.ifpb.caveresearch.enums.TipoEquipamento;
 import jakarta.persistence.*;
 import lombok.*;
@@ -45,15 +45,13 @@ public class Equipamento {
     private LocalDate dataUltimaManutencao;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "situacao", nullable = false)
-    private SituacaoOperacionalEquipamento situacao;
+    @Column(name = "situacao_equipamento", nullable = false)
+    private SituacaoEquipamento situacaoEquipamento;
 
     @Column(name = "exige_calibracao", nullable = false)
     private Boolean exigeCalibracao;
 
-    @OneToMany(
-            mappedBy = "equipamento",
-            fetch = FetchType.LAZY
-    )
+    @OneToMany(mappedBy = "equipamento", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MovimentacaoEquipamento> movimentacoes = new ArrayList<>();
+
 }

@@ -42,13 +42,13 @@ public class SetorPesquisa {
     @Column(name = "situacao_setor",  nullable = false)
     private SituacaoSetor situacaoSetor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_caverna", nullable = false)
     private Caverna caverna;
 
     @ManyToMany(mappedBy = "setores", fetch = FetchType.LAZY)
     private List<Expedicao> expedicoes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ColetaCientifica> coletas = new ArrayList<>();
 }

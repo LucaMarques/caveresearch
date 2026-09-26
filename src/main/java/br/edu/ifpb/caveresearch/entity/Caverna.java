@@ -50,9 +50,9 @@ public class Caverna {
     @Column(name = "acesso_permitido", nullable = false)
     private Boolean acessoPermitido;
 
-    @OneToMany(mappedBy = "caverna", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "caverna", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Expedicao> expedicoes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "caverna", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "caverna", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SetorPesquisa> setores = new ArrayList<>();
 }
