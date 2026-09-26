@@ -1,22 +1,11 @@
 package br.edu.ifpb.caveresearch.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import br.edu.ifpb.caveresearch.enums.*;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.*;
+import java.util.*;
 
 @Entity
 @Getter
@@ -24,20 +13,42 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "tb_setor_pesquisa")
 public class SetorPesquisa {
-    // terminar implementacao
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_setor", nullable = false)
     private Long idSetor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "denominacao", nullable = false)
+    private String denominacao;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "dificuldade", nullable = false)
+    private NivelDificuldadeSetor dificuldade;
+
+    @Column(name = "profundidade_maxima", precision = 10, scale = 2)
+    private BigDecimal profundidadeMaxima;
+
+    @Column(name = "extensao_aproximada", nullable = false , precision = 10, scale = 2)
+    private BigDecimal extensaoAproximada;
+
+    @Column(name = "descricao", nullable = false, length = 500)
+    private String descricao;
+
+    @Column(name = "risco_inundacao", nullable = false)
+    private Boolean riscoInundacao;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "situacao_setor",  nullable = false)
+    private SituacaoSetor situacaoSetor;
+
+    @ManyToOne
     @JoinColumn(name = "id_caverna", nullable = false)
     private Caverna caverna;
 
     @ManyToMany(mappedBy = "setores", fetch = FetchType.LAZY)
     private List<Expedicao> expedicoes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ColetaCientifica> coletas = new ArrayList<>();
 }
