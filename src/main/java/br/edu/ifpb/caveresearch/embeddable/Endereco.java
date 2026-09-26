@@ -8,19 +8,19 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 public class Endereco {
-    @Column(name = "logradouro", nullable = false, length = 80)
+    @Column(name = "logradouro", nullable = false, length = 120)
     private String logradouro;
 
     @Column(name = "numero", nullable = false, length = 10)
     private String numero;
 
-    @Column(name = "complemento", length = 80)
+    @Column(name = "complemento", length = 100)
     private String complemento;
 
-    @Column(name = "bairro", nullable = false, length = 50)
+    @Column(name = "bairro", nullable = false, length = 80)
     private String bairro;
 
-    @Column(name = "cidade", nullable = false, length = 50)
+    @Column(name = "cidade", nullable = false, length = 80)
     private String cidade;
 
     @Column(name = "uf", nullable = false, length = 2)

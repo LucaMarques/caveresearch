@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "tb_pesquisador")
+@Table(name = "tb_pessoa_pesquisador_joined")
 public class Pesquisador extends Pessoa {
     @Column(name = "rg_institucional", nullable = false, unique = true)
     private Integer registroInstitucional;
@@ -22,5 +22,4 @@ public class Pesquisador extends Pessoa {
 
     @Column(name = "valor_diario_bolsa", nullable = false, precision = 10, scale = 2)
     private BigDecimal valorDiarioBolsa;
-
 }
