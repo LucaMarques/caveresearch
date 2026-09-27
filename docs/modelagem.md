@@ -6,264 +6,353 @@ Este documento registra a modelagem conceitual inicial do dominio TurmalinaPB. A
 
 ```mermaid
 classDiagram
-direction LR
+    direction LR
 
-class Caverna {
-    +Long id
-    +String nomeOficial
-    +String codigoAmbiental
-    +String municipio
-    +String unidadeFederativa
-    +BigDecimal altitude
-    +BigDecimal extensaoConhecida
-    +LocalDate dataUltimaInspecao
-    +boolean acessoPermitido
-}
+    class Caverna {
+        <<Entity>>
+        +Long idCaverna
+        +String nomeOficial
+        +String codigoAmbiental
+        +String municipio
+        +String unidadeFederativa
+        +BigDecimal altitude
+        +BigDecimal extensaoConhecida
+        +LocalDate dataUltimaInspecao
+        +Boolean acessoPermitido
+    }
 
-class Localizacao {
-    <<Embeddable>>
-    +BigDecimal latitude
-    +BigDecimal longitude
-    +String datumGeodesico
-}
+    class SetorPesquisa {
+        <<Entity>>
+        +Long idSetor
+        +String denominacao
+        +NivelDificuldadeSetor dificuldade
+        +BigDecimal profundidadeMaxima
+        +BigDecimal extensaoAproximada
+        +String descricao
+        +Boolean riscoInundacao
+        +SituacaoSetor situacaoSetor
+    }
 
-class SetorPesquisa {
-    +Long id
-    +String denominacao
-    +NivelDificuldadeSetor dificuldade
-    +BigDecimal profundidadeMaxima
-    +BigDecimal extensaoAproximada
-    +String descricao
-    +boolean riscoInundacao
-}
+    class Pessoa {
+        <<Entity>>
+        <<abstract>>
+        +Long idPessoa
+        +String nome
+        +String cpf
+        +LocalDate dataNascimento
+        +String email
+        +String telefone
+        +boolean situacaoAtiva
+    }
 
-class Pessoa {
-    <<abstract>>
-    +Long id
-    +String nome
-    +String cpf
-    +LocalDate dataNascimento
-    +String email
-    +String telefone
-    +boolean ativa
-}
+    class Pesquisador {
+        <<Entity>>
+        +Integer registroInstitucional
+        +String areaPrincipalPesquisa
+        +String titulacao
+        +BigDecimal valorDiarioBolsa
+    }
 
-class Endereco {
-    <<Embeddable>>
-    +String logradouro
-    +String numero
-    +String complemento
-    +String bairro
-    +String cidade
-    +String unidadeFederativa
-    +String cep
-}
+    class GuiaEspeleologia {
+        <<Entity>>
+        +Integer numeroCredencial
+        +String nivelCertificacao
+        +LocalDate dataValidadeCertificacao
+        +int qtdExpedicoesConcluidas
+    }
 
-class Pesquisador {
-    +String registroInstitucional
-    +String areaPrincipalPesquisa
-    +String titulacao
-    +BigDecimal valorDiarioBolsa
-}
+    class Expedicao {
+        <<Entity>>
+        +Long idExpedicao
+        +String codigo
+        +String titulo
+        +String objetivo
+        +LocalDateTime inicioPrevisto
+        +LocalDateTime terminoPrevisto
+        +BigDecimal orcamentoAprovado
+        +BigDecimal custoRealizado
+        +Integer quantidadeMaximaParticipantes
+        +SituacaoExpedicao situacao
+        +boolean cancelamentoEmergencial
+    }
 
-class GuiaEspeleologia {
-    +String numeroCredenciamento
-    +String nivelCertificacao
-    +LocalDate validadeCertificacao
-    +Integer expedicoesConcluidas
-}
+    class PlanoSeguranca {
+        <<Entity>>
+        +Long idPlanoSeguranca
+        +String procedimentosEvacuacao
+        +String pontoExternoEncontro
+        +Integer tempoMaximoSemComunicacaoHoras
+        +String telefoneEmergencia
+        +boolean necessitaEquipeMedica
+        +byte[] mapaRota
+    }
 
-class Expedicao {
-    +Long id
-    +String codigo
-    +String titulo
-    +String objetivo
-    +LocalDateTime inicioPrevisto
-    +LocalDateTime terminoPrevisto
-    +BigDecimal orcamentoAprovado
-    +BigDecimal custoRealizado
-    +Integer quantidadeMaximaParticipantes
-    +SituacaoExpedicao situacao
-    +boolean cancelamentoEmergencial
-}
+    class AutorizacaoAmbiental {
+        <<Entity>>
+        +Long idAutorizacaoAmbiental
+        +String numero
+        +String orgaoEmissor
+        +LocalDate dataEmissao
+        +LocalDate dataValidade
+        +SituacaoAutorizacao situacao
+        +String observacoes
+        +byte[] arquivoPdfAssinado
+    }
 
-class PlanoSeguranca {
-    +Long id
-    +String procedimentosEvacuacao
-    +String pontoEncontro
-    +Integer tempoMaxSemComunicacao
-    +String telefoneEmergencia
-    +boolean necessitaEquipeMedica
-    +byte[] mapaRota
-}
+    class ParticipacaoExpedicao {
+        <<Entity>>
+        +Long idParticipacaoExpedicao
+        +PapelParticipante papel
+        +LocalDate dataConfirmacao
+        +BigDecimal valorDiaria
+        +Integer quantidadePrevistaDias
+        +boolean presencaConfirmada
+        +String observacoes
+    }
 
-class AutorizacaoAmbiental {
-    +Long id
-    +String numero
-    +String orgaoEmissor
-    +LocalDate dataEmissao
-    +LocalDate dataValidade
-    +SituacaoAutorizacao situacao
-    +String observacoes
-    +byte[] arquivoPdf
-}
+    class Equipamento {
+        <<Entity>>
+        +Long idEquipamento
+        +String codigoPatrimonial
+        +String nomeEquipamento
+        +TipoEquipamento tipoEquipamento
+        +String fabricante
+        +BigDecimal valorAquisicao
+        +LocalDate dataCompra
+        +LocalDate dataUltimaManutencao
+        +SituacaoEquipamento situacaoEquipamento
+        +Boolean exigeCalibracao
+    }
 
-class ParticipacaoExpedicao {
-    +Long id
-    +PapelParticipante papel
-    +LocalDateTime dataConfirmacao
-    +BigDecimal valorDiaria
-    +Integer quantidadePrevistaDias
-    +boolean presencaConfirmada
-    +String observacoes
-}
+    class MovimentacaoEquipamento {
+        <<Entity>>
+        +Long idMovimentacao
+        +LocalDateTime dataHoraRetirada
+        +LocalDateTime dataHoraDevolucaoPrevista
+        +LocalDateTime dataHoraDevolucaoEfetiva
+        +String estadoSaida
+        +String estadoRetorno
+        +BigDecimal custoAvaria
+    }
 
-class Equipamento {
-    +Long id
-    +String codigoPatrimonial
-    +String nome
-    +TipoEquipamento tipo
-    +String fabricante
-    +BigDecimal valorAquisicao
-    +LocalDate dataCompra
-    +LocalDate dataUltimaManutencao
-    +SituacaoEquipamento situacao
-    +boolean exigeCalibracao
-}
+    class ColetaCientifica {
+        <<Entity>>
+        +Long idColeta
+        +LocalDateTime dataHoraColeta
+        +String metodoEmpregado
+        +String descricaoPonto
+        +BigDecimal temperatura
+        +BigDecimal umidadeRelativa
+        +BigDecimal profundidade
+        +String observacoes
+        +SituacaoValidacaoColeta situacaoDeValidacao
 
-class MovimentacaoEquipamento {
-    +Long id
-    +LocalDateTime retirada
-    +LocalDateTime devolucaoPrevista
-    +LocalDateTime devolucaoEfetiva
-    +String estadoSaida
-    +String estadoRetorno
-    +BigDecimal custoAvaria
-}
+        +addAmostra(Amostra amostra) void
+    }
 
-class ColetaCientifica {
-    +Long id
-    +LocalDateTime dataHora
-    +String metodo
-    +String descricaoPonto
-    +BigDecimal temperatura
-    +BigDecimal umidadeRelativa
-    +BigDecimal profundidade
-    +String observacoes
-    +SituacaoValidacaoColeta situacao
-}
+    class Amostra {
+        <<Entity>>
+        +Long idAmostra
+        +String codigoCampo
+        +BigDecimal massaOuVolume
+        +String unidadeMedida
+        +LocalDate dataAcondicionamento
+        +CategoriaAmostra categoria
+        +CondicaoConservacao condicaoConservacao
+        +boolean materialPerigoso
+        +byte[] fotografia
+        +String observacoes
+    }
 
-class Amostra {
-    +Long id
-    +String codigoCampo
-    +CategoriaAmostra categoria
-    +BigDecimal massaOuVolume
-    +String unidadeMedida
-    +LocalDate dataAcondicionamento
-    +CondicaoConservacao conservacao
-    +boolean materialPerigoso
-    +byte[] fotografia
-    +String observacoes
-}
+    class RelatorioFinal {
+        <<Entity>>
+        +Long idRelatorioFinal
+        +String titulo
+        +String resumo
+        +LocalDate dataSubmissao
+        +Integer numeroTotalPaginas
+        +SituacaoRelatorio situacao
+        +byte[] arquivoCompleto
+        +boolean publicacaoAutorizada
+    }
 
-class RelatorioFinal {
-    +Long id
-    +String titulo
-    +String resumo
-    +LocalDate dataSubmissao
-    +Integer totalPaginas
-    +SituacaoRelatorio situacao
-    +byte[] arquivo
-    +boolean publicacaoAutorizada
-}
+    class Localizacao {
+        <<Embeddable>>
+        +BigDecimal latitude
+        +BigDecimal longitude
+        +String datumGeodesico
+    }
 
-class SituacaoExpedicao {
-    <<enumeration>>
-    PLANEJADA
-    AUTORIZADA
-    EM_ANDAMENTO
-    CONCLUIDA
-    CANCELADA
-}
+    class Endereco {
+        <<Embeddable>>
+        +String logradouro
+        +String numero
+        +String complemento
+        +String bairro
+        +String cidade
+        +String unidadeFederativa
+        +String cep
+    }
 
-class NivelDificuldadeSetor {
-    <<enumeration>>
-    BAIXO
-    MODERADO
-    ALTO
-    EXTREMO
-}
+    class SituacaoExpedicao {
+        <<enumeration>>
+        PLANEJADA
+        AUTORIZADA
+        EM_ANDAMENTO
+        CONCLUIDA
+        CANCELADA
+    }
 
-class TipoEquipamento {
-    <<enumeration>>
-}
+    class NivelDificuldadeSetor {
+        <<enumeration>>
+        BAIXO
+        MODERADO
+        ALTO
+        EXTREMO
+    }
 
-class SituacaoEquipamento {
-    <<enumeration>>
-}
+    class SituacaoSetor {
+        <<enumeration>>
+        SECO
+        MOLHADO
+        ALAGADO
+        INSTAVEL
+        INTERDITADO
+    }
 
-class PapelParticipante {
-    <<enumeration>>
-}
+    class TipoEquipamento {
+        <<enumeration>>
+        TOPOGRAFIA
+        NAVEGACAO
+        ILUMINACAO
+        COMUNICACAO
+        SEGURANCA
+        PROTECAO_INDIVIDUAL
+        RESGATE
+        DOCUMENTACAO
+        COLETA
+        MEDICAO
+    }
 
-class CategoriaAmostra {
-    <<enumeration>>
-}
+    class SituacaoEquipamento {
+        <<enumeration>>
+        DISPONIVEL
+        EM_USO
+        EM_MANUTENCAO
+        INOPERANTE
+        DANIFICADO
+        PERDIDO
+        DESCARTADO
+    }
 
-class CondicaoConservacao {
-    <<enumeration>>
-}
+    class PapelParticipante {
+        <<enumeration>>
+        COORDENADOR
+        PESQUISADOR
+        GUIA_ESPELEOLOGIA
+        RESPONSAVEL_SEGURANCA
+        EQUIPE_MEDICA
+        APOIO_LOGISTICO
+        COMUNICACAO
+        TOPOGRAFO
+    }
 
-class SituacaoAutorizacao {
-    <<enumeration>>
-}
+    class CategoriaAmostra {
+        <<enumeration>>
+        ROCHA
+        SOLO
+        SEDIMENTO
+        AGUA
+        MINERAL
+        FOSSIL
+        MATERIAL_BIOLOGICO
+        MATERIAL_ORGANICO
+    }
 
-class SituacaoRelatorio {
-    <<enumeration>>
-}
+    class CondicaoConservacao {
+        <<enumeration>>
+        ADEQUADA
+        COMPROMETIDA
+        CONTAMINADA
+        INUTILIZAVEL
+    }
 
-class SituacaoValidacaoColeta {
-    <<enumeration>>
-}
+    class SituacaoAutorizacao {
+        <<enumeration>>
+        SOLICITADO
+        INDEFERIDO
+        DEFERIDO
+        PENDENTE_MUDANCA
+        CANCELADO
+    }
 
-Pessoa <|-- Pesquisador
-Pessoa <|-- GuiaEspeleologia
+    class SituacaoRelatorio {
+        <<enumeration>>
+        RASCUNHO
+        SUBMETIDO
+        EM_ANALISE
+        AJUSTES_SOLICITADOS
+        APROVADO
+        REPROVADO
+    }
 
-Caverna *-- Localizacao
-Pessoa *-- Endereco
+    class SituacaoValidacaoColeta {
+        <<enumeration>>
+        PENDENTE
+        VALIDADA
+        REJEITADA
+    }
 
-Caverna "1" --> "0..*" SetorPesquisa
-Caverna "1" --> "0..*" Expedicao
+    Pessoa <|-- Pesquisador
+    Pessoa <|-- GuiaEspeleologia
 
-Expedicao "0..*" --> "0..*" SetorPesquisa
+    Caverna "1" *-- "1" Localizacao : localizacao
+    Pessoa "1" *-- "1" Endereco : endereco
 
-Expedicao "1" --> "1" PlanoSeguranca
-Expedicao "1" --> "0..1" AutorizacaoAmbiental
-Expedicao "1" --> "0..1" RelatorioFinal
 
-Expedicao "1" --> "0..*" ParticipacaoExpedicao
-Pessoa "1" --> "0..*" ParticipacaoExpedicao
+    Caverna "1" --> "0..*" SetorPesquisa : setores
+    Caverna "1" --> "0..*" Expedicao : expedicoes
 
-Expedicao "1" --> "0..*" MovimentacaoEquipamento
-Equipamento "1" --> "0..*" MovimentacaoEquipamento
-Pessoa "1" --> "0..*" MovimentacaoEquipamento : responsavel retirada
+    Expedicao "0..*" --> "0..*" SetorPesquisa : setores
 
-Expedicao "1" --> "0..*" ColetaCientifica
-SetorPesquisa "1" --> "0..*" ColetaCientifica
-Pesquisador "1" --> "0..*" ColetaCientifica : responsavel
+    Expedicao "1" *-- "1" PlanoSeguranca : planoSeguranca
+    Expedicao "1" --> "0..1" AutorizacaoAmbiental : autorizacaoAmbiental
+    Expedicao "1" --> "0..1" RelatorioFinal : relatorioFinal
 
-ColetaCientifica "1" --> "0..*" Amostra
+    Expedicao "1" --> "0..*" ParticipacaoExpedicao : participacoes
+    Pessoa "1" --> "0..*" ParticipacaoExpedicao : participacoes
 
-SetorPesquisa --> NivelDificuldadeSetor
-Expedicao --> SituacaoExpedicao
-AutorizacaoAmbiental --> SituacaoAutorizacao
-ParticipacaoExpedicao --> PapelParticipante
-Equipamento --> TipoEquipamento
-Equipamento --> SituacaoEquipamento
-ColetaCientifica --> SituacaoValidacaoColeta
-Amostra --> CategoriaAmostra
-Amostra --> CondicaoConservacao
-RelatorioFinal --> SituacaoRelatorio
+
+    Expedicao "1" --> "0..*" MovimentacaoEquipamento : movimentacoes
+    Equipamento "1" --> "0..*" MovimentacaoEquipamento : movimentacoes
+    Pessoa "1" --> "0..*" MovimentacaoEquipamento : responsavel
+
+    Expedicao "1" --> "0..*" ColetaCientifica : coletas
+    SetorPesquisa "1" --> "0..*" ColetaCientifica : coletas
+    Pesquisador "1" --> "0..*" ColetaCientifica : pesquisadorResponsavel
+
+    ColetaCientifica "1" --> "0..*" Amostra : amostras
+
+
+
+    SetorPesquisa --> NivelDificuldadeSetor : dificuldade
+    SetorPesquisa --> SituacaoSetor : situacaoSetor
+
+    Expedicao --> SituacaoExpedicao : situacao
+
+    AutorizacaoAmbiental --> SituacaoAutorizacao : situacao
+
+    ParticipacaoExpedicao --> PapelParticipante : papel
+
+    Equipamento --> TipoEquipamento : tipoEquipamento
+    Equipamento --> SituacaoEquipamento : situacaoEquipamento
+
+    ColetaCientifica --> SituacaoValidacaoColeta : situacaoDeValidacao
+
+    Amostra --> CategoriaAmostra : categoria
+    Amostra --> CondicaoConservacao : condicaoConservacao
+
+    RelatorioFinal --> SituacaoRelatorio : situacao
 ```
 
 ## Observacoes de modelagem
@@ -278,13 +367,14 @@ RelatorioFinal --> SituacaoRelatorio
 ## Pessoas, objeto incorporável e herança
 
 A classe é abstrata porque o cadastro deve representar uma especialização concreta, como `Pesquisador` ou `GuiaEspeleologia`. 
-Essa estrutura permite acrescentar outras especializações no futuro sem duplicar os dados comuns, por isso foi escolhido a especializações das entidades com a estratégia `@Inheritance(strategy = InheritanceType.JOINED)`. 
+Essa estrutura permite acrescentar outras especializações no futuro sem duplicar os dados comuns. 
+Por isso, foi escolhida a estratégia de herança JOINED, por meio de @Inheritance(strategy = InheritanceType.JOINED).
 Os atributos compartilhados ficam em `tb_pessoa`, enquanto cada especialização possui uma tabela própria com os atributos específicos e uma 
 chave primária vinculada à chave de `tb_pessoa` que é definida como `Long` com `GenerationType.IDENTITY`, e herdado pelas subclasses, não se declara um novo `@Id` em cada uma. 
 A estratégia evita colunas de pesquisador na tabela de guia e vice-versa, mantendo os campos específicos obrigatórios em suas tabelas.
 `Endereco` é um objeto de valor mapeado com `@Embeddable`, o campo correspondente em `Pessoa` utiliza `@Embedded`. 
-Seus atributos são colunas da própria `tb_pessoa`, sem identidade nem tabela de endereço. 
-As colunas obrigatórias impedem que um endereço inteiramente nulo seja persistido quando o esquema relacional possuir as restrições `NOT NULL`.
+Seus atributos são colunas da própria `tb_pessoa`, sem identidade nem tabela de endereço.
+Os atributos obrigatórios de Endereco são mapeados com restrições nullable = false, de modo que o esquema relacional não aceite endereço incompleto nos campos definidos como essenciais.
 Os limites explícitos de nome, CPF, e-mail e telefone restringem os dados de acordo com o domínio. 
 O CPF recebe `unique = true` e é armazenado como texto de até 11 caracteres, preservando zeros à esquerda. 
 `LocalDate` representa nascimento e validade de certificação, pois esses valores não exigem hora. 
@@ -297,10 +387,9 @@ Alterar o nome de uma constante futuramente exigirá tratar os valores já grava
 Cada coleta pertence a uma expedição, ocorre em um setor e possui um pesquisador responsável. 
 As três associações são `@ManyToOne`, com `@JoinColumn(nullable = false)`, porque uma expedição, um setor e um pesquisador podem estar relacionados a várias coletas. 
 As colunas de chave estrangeira ficam em `tb_coleta_cientifica`, por isso, `ColetaCientifica` é o lado proprietário dessas relações. 
-O nome da coluna que aponta para `Pesquisador` pode ser `id_pesquisador` mesmo que a chave herdada na tabela de destino se chame `id_pessoa`, o esquema precisa referenciar a tabela da especialização para exigir que o responsável seja efetivamente um pesquisador.
+O nome da coluna que aponta para `Pesquisador` pode ser `id_pesquisador` mesmo que a chave herdada na tabela de destino se chame `id_pessoa`,
+A associação aponta para a entidade Pesquisador, garantindo no modelo JPA que o responsável pela coleta seja desse subtipo específico da hierarquia de Pessoa.
 Essas referências foram configuradas como `LAZY` para evitar trazer expedição, setor e pessoa em consultas que precisam somente dos dados da coleta. 
-Quando a tela ou consulta precisar exibir setor e pesquisador, deve buscá-los explicitamente na mesma consulta, por exemplo com `JOIN FETCH`, enquanto o `EntityManager` estiver aberto. 
-Isso reduz consultas adicionais repetidas ao percorrer uma lista de coletas.
 
 ## Amostras, integridade e ciclo de vida
 
