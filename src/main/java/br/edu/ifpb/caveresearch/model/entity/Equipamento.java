@@ -51,6 +51,6 @@ public class Equipamento {
     @Column(name = "exige_calibracao", nullable = false)
     private Boolean exigeCalibracao;
 
-    @OneToMany(mappedBy = "equipamento", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "equipamento", fetch = FetchType.LAZY)
     private List<MovimentacaoEquipamento> movimentacoes = new ArrayList<>();
 }
