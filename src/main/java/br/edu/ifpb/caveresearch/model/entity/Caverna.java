@@ -23,10 +23,10 @@ public class Caverna {
     @Column(name = "id_caverna", nullable = false)
     private Long idCaverna;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome", nullable = false, length = 150)
     private String nomeOficial;
 
-    @Column(name = "cod_cadastro_ambiental", nullable = false, length = 41)
+    @Column(name = "cod_cadastro_ambiental", nullable = false, unique = true, length = 41)
     private String codigoAmbiental;
 
     @Column(name = "municipio", nullable = false, length = 30)
