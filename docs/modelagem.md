@@ -127,7 +127,7 @@ class Equipamento {
     +BigDecimal valorAquisicao
     +LocalDate dataCompra
     +LocalDate dataUltimaManutencao
-    +SituacaoOperacionalEquipamento situacao
+    +SituacaoEquipamento situacao
     +boolean exigeCalibracao
 }
 
@@ -198,7 +198,7 @@ class TipoEquipamento {
     <<enumeration>>
 }
 
-class SituacaoOperacionalEquipamento {
+class SituacaoEquipamento {
     <<enumeration>>
 }
 
@@ -259,7 +259,7 @@ Expedicao --> SituacaoExpedicao
 AutorizacaoAmbiental --> SituacaoAutorizacao
 ParticipacaoExpedicao --> PapelParticipante
 Equipamento --> TipoEquipamento
-Equipamento --> SituacaoOperacionalEquipamento
+Equipamento --> SituacaoEquipamento
 ColetaCientifica --> SituacaoValidacaoColeta
 Amostra --> CategoriaAmostra
 Amostra --> CondicaoConservacao

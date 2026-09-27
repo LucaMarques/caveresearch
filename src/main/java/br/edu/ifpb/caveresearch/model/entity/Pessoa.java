@@ -45,5 +45,5 @@ public abstract class Pessoa {
     private List<ParticipacaoExpedicao> participacoes = new ArrayList<>();
 
     @OneToMany(mappedBy = "pessoaResponsavel", fetch = FetchType.LAZY)
-    private List<UtilizacaoEquipamento> utilizacoesEquipamento = new ArrayList<>();
+    private List<MovimentacaoEquipamento> movimentacoesEquipamento = new ArrayList<>();
 }

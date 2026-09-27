@@ -94,4 +94,7 @@ public class Expedicao {
 
     @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ColetaCientifica> coletas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MovimentacaoEquipamento> movimentacoesEquipamento = new ArrayList<>();
 }
