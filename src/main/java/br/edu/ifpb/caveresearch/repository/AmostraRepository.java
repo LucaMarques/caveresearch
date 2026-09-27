@@ -1,6 +1,6 @@
 package br.edu.ifpb.caveresearch.repository;
 
-import br.edu.ifpb.caveresearch.entity.Amostra;
+import br.edu.ifpb.caveresearch.model.entity.Amostra;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;

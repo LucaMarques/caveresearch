@@ -1,6 +1,6 @@
 package br.edu.ifpb.caveresearch.repository;
 
-import br.edu.ifpb.caveresearch.entity.ColetaCientifica;
+import br.edu.ifpb.caveresearch.model.entity.ColetaCientifica;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
