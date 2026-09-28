@@ -1,6 +1,6 @@
 # Modelagem Conceitual
 
-Este documento registra a modelagem conceitual inicial do dominio TurmalinaPB. A etapa atual descreve entidades persistentes planejadas, objetos incorporaveis, enumeracoes e relacionamentos principais, sem implementar classes Java, mapeamentos JPA ou migrations.
+Este documento registra a modelagem conceitual do dominio caveresearch. A etapa atual descreve entidades persistentes, objetos incorporaveis, enumeracoes e relacionamentos principais alinhados ao modelo Java.
 
 `Pessoa` foi planejada como superclasse abstrata de uma hierarquia JPA com estrategia `JOINED`, contendo pelo menos `Pesquisador` e `GuiaEspeleologia`. `Localizacao` e `Endereco` foram modelados como objetos incorporaveis, sem identidade propria e sem tabela propria.
 
@@ -323,9 +323,9 @@ classDiagram
     Pessoa "1" --> "0..*" ParticipacaoExpedicao : participacoes
 
 
-    Expedicao "1" --> "0..*" MovimentacaoEquipamento : movimentacoes
+    Expedicao "1" --> "0..*" MovimentacaoEquipamento : movimentacoesEquipamento
     Equipamento "1" --> "0..*" MovimentacaoEquipamento : movimentacoes
-    Pessoa "1" --> "0..*" MovimentacaoEquipamento : responsavel
+    Pessoa "1" --> "0..*" MovimentacaoEquipamento : movimentacoesEquipamento
 
     Expedicao "1" --> "0..*" ColetaCientifica : coletas
     SetorPesquisa "1" --> "0..*" ColetaCientifica : coletas
@@ -361,8 +361,7 @@ classDiagram
 - A combinacao entre pessoa e expedicao em `ParticipacaoExpedicao` devera ser unica quando o mapeamento persistente for implementado.
 - `Expedicao` deve possuir exatamente um `PlanoSeguranca`.
 - `AutorizacaoAmbiental` e `RelatorioFinal` sao opcionais para uma `Expedicao`.
-- Os valores de `SituacaoExpedicao` e `NivelDificuldadeSetor` ja foram definidos pelo enunciado.
-- Os valores dos demais enums serao refinados em etapa posterior.
+- Os valores dos enums foram alinhados com as classes Java em `model.enums`.
 
 ## Pessoas, objeto incorporável e herança
 
@@ -387,8 +386,8 @@ Alterar o nome de uma constante futuramente exigirá tratar os valores já grava
 Cada coleta pertence a uma expedição, ocorre em um setor e possui um pesquisador responsável. 
 As três associações são `@ManyToOne`, com `@JoinColumn(nullable = false)`, porque uma expedição, um setor e um pesquisador podem estar relacionados a várias coletas. 
 As colunas de chave estrangeira ficam em `tb_coleta_cientifica`, por isso, `ColetaCientifica` é o lado proprietário dessas relações. 
-O nome da coluna que aponta para `Pesquisador` pode ser `id_pesquisador` mesmo que a chave herdada na tabela de destino se chame `id_pessoa`,
-A associação aponta para a entidade Pesquisador, garantindo no modelo JPA que o responsável pela coleta seja desse subtipo específico da hierarquia de Pessoa.
+No codigo, a coluna que aponta para `Pesquisador` foi nomeada como `id_pessoa`, acompanhando a chave herdada da hierarquia `JOINED`.
+A associacao aponta para a entidade `Pesquisador`, garantindo no modelo JPA que o responsavel pela coleta seja desse subtipo especifico da hierarquia de `Pessoa`.
 Essas referências foram configuradas como `LAZY` para evitar trazer expedição, setor e pessoa em consultas que precisam somente dos dados da coleta. 
 
 ## Amostras, integridade e ciclo de vida
