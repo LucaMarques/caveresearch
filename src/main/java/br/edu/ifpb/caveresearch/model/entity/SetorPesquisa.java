@@ -50,6 +50,6 @@ public class SetorPesquisa {
     @ManyToMany(mappedBy = "setores", fetch = FetchType.LAZY)
     private List<Expedicao> expedicoes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY)
     private List<ColetaCientifica> coletas = new ArrayList<>();
 }

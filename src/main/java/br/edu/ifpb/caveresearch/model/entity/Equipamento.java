@@ -22,7 +22,7 @@ public class Equipamento {
     @Column(name = "id_equipamento", nullable = false)
     private Long idEquipamento;
 
-    @Column(name = "codigo_patrimonial", nullable = false)
+    @Column(name = "codigo_patrimonial", unique = true, nullable = false, length = 100)
     private String codigoPatrimonial;
 
     @Column(name = "nome_equipamento", nullable = false, length = 255)
@@ -35,7 +35,7 @@ public class Equipamento {
     @Column(name = "fabricante", nullable = false, length = 100)
     private String fabricante;
 
-    @Column(name = "valor_aquisicao", nullable = false)
+    @Column(name = "valor_aquisicao", nullable = false, precision = 10, scale = 2)
     private BigDecimal valorAquisicao;
 
     @Column(name = "data_compra", nullable = false)
@@ -51,6 +51,6 @@ public class Equipamento {
     @Column(name = "exige_calibracao", nullable = false)
     private Boolean exigeCalibracao;
 
-    @OneToMany(mappedBy = "equipamento", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "equipamento", fetch = FetchType.LAZY)
     private List<MovimentacaoEquipamento> movimentacoes = new ArrayList<>();
 }
