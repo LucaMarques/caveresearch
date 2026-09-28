@@ -19,7 +19,8 @@ public class ColetaRepository {
             FROM ColetaCientifica c
             JOIN FETCH c.setor
             JOIN FETCH c.pesquisadorResponsavel
-            WHERE c.expedicao.id = :idExpedicao
+            WHERE c.expedicao.idExpedicao = :idExpedicao
+            ORDER BY c.dataHoraColeta
             """, ColetaCientifica.class)
                 .setParameter("idExpedicao", idExpedicao)
                 .getResultList();

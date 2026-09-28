@@ -17,7 +17,8 @@ public class AmostraRepository {
         return entityManager.createQuery("""
             SELECT a
             FROM Amostra a
-            WHERE a.coleta.id = :idColeta
+            WHERE a.coleta.idColeta = :idColeta
+            ORDER BY a.codigoCampo
             """, Amostra.class)
                 .setParameter("idColeta", idColeta)
                 .getResultList();

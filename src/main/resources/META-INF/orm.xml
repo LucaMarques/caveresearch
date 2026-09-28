@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+                      https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+                 version="3.1">
+
+    <named-query name="Pesquisador.listarPesquisadorPorBolsa">
+        <query>
+            <![CDATA[
+                SELECT p
+                FROM Pesquisador p
+                WHERE p.valorDiarioBolsa > (
+                    SELECT AVG(p2.valorDiarioBolsa)
+                    FROM Pesquisador p2
+                )
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="Expedicao.listarResumoPorPeriodoESituacao">
+        <query>
+            <![CDATA[
+                SELECT new br.edu.ifpb.caveresearch.repository.dto.ExpedicaoResumo(
+                    e.idExpedicao,
+                    e.codigo,
+                    e.titulo,
+                    c.nomeOficial,
+                    e.inicioPrevisto,
+                    e.terminoPrevisto,
+                    e.situacao
+                )
+                FROM Expedicao e
+                JOIN e.caverna c
+                WHERE e.inicioPrevisto < :termino
+                  AND e.terminoPrevisto >= :inicio
+                  AND e.situacao = :situacao
+                ORDER BY e.inicioPrevisto
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="Expedicao.carregarDetalhesComParticipantes">
+        <query>
+            <![CDATA[
+                SELECT DISTINCT e
+                FROM Expedicao e
+                JOIN FETCH e.caverna
+                LEFT JOIN FETCH e.participacoes p
+                LEFT JOIN FETCH p.pessoa
+                WHERE e.idExpedicao = :idExpedicao
+            ]]>
+        </query>
+    </named-query>
+</entity-mappings>

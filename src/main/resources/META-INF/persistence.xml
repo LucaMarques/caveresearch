@@ -5,6 +5,7 @@
              version="3.2">
     <persistence-unit name="caveresearchPU" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <mapping-file>META-INF/orm.xml</mapping-file>
         <class>br.edu.ifpb.caveresearch.model.embeddable.Endereco</class>
         <class>br.edu.ifpb.caveresearch.model.embeddable.Localizacao</class>
         <class>br.edu.ifpb.caveresearch.model.entity.Amostra</class>

@@ -406,3 +406,34 @@ Categoria e condição de conservação são enums persistidos como `STRING`, is
 A fotografia é um `byte[]` mapeado com `@Lob`, mantendo o conteúdo binário no domínio, sem Base64. 
 `@Basic(fetch = LAZY)` indica a intenção de carregá-la apenas quando necessário, mas o carregamento tardio de atributos básicos depende do suporte e da configuração do provedor. 
 Por isso, as consultas de listagem devem selecionar explicitamente somente os atributos necessários, sem fotografia, uma consulta separada atende ao download do arquivo.
+
+## Decisões sobre objetos incorporáveis e enums
+
+`Endereco` foi definido como `@Embeddable` porque não possui ciclo de vida próprio no domínio.
+Ele existe como parte do cadastro de uma `Pessoa`, não precisa de identificador, não é consultado isoladamente e não deve ser compartilhado por várias pessoas.
+Por isso, o uso de `@Embedded` em `Pessoa` mantém os campos de endereço na tabela `tb_pessoa`, simplificando o modelo relacional e evitando uma tabela artificial apenas para agrupar logradouro, número, bairro, cidade, unidade federativa e CEP.
+
+`Localizacao` segue a mesma decisão.
+A latitude, longitude e datum geodésico descrevem a posição de uma `Caverna` e não representam uma entidade independente.
+Como esses valores só fazem sentido vinculados à caverna, o objeto foi mantido como incorporável e seus atributos são gravados na própria `tb_caverna`.
+Essa escolha também deixa claro que alterar a localização significa atualizar os dados da caverna, e não trocar uma referência para outro registro de localização.
+
+Os enums foram usados nos pontos em que o domínio trabalha com conjuntos fechados de valores, como situação da expedição, situação do equipamento, papel do participante, categoria da amostra e condição de conservação.
+Esses atributos foram persistidos com `@Enumerated(EnumType.STRING)`, pois o banco passa a guardar valores legíveis, como `PLANEJADA`, `DISPONIVEL` e `COORDENADOR`.
+A decisão evita o problema de `EnumType.ORDINAL`, no qual a simples reordenação das constantes no Java mudaria o significado dos registros já gravados.
+O custo dessa escolha é que renomear uma constante exige migração dos dados existentes no banco.
+
+## Estratégia de carregamento e consultas
+
+As associações de maior volume foram configuradas como `LAZY`, principalmente coleções de participações, setores, coletas, amostras e movimentações de equipamento.
+Essa decisão evita que uma consulta simples de expedição carregue automaticamente todo o grafo de participantes, equipamentos, coletas e arquivos relacionados.
+Os campos binários também foram marcados com `@Lob` e `@Basic(fetch = LAZY)`, reforçando que mapa de segurança, autorização ambiental, relatório final e fotografia não devem ser trazidos nas listagens.
+
+As consultas foram separadas conforme o caso de uso.
+A listagem de expedições por período e situação usa uma consulta nomeada em `orm.xml` com projeção `ExpedicaoResumo`, retornando apenas código, título, caverna, datas e situação.
+O detalhamento de uma expedição selecionada usa `fetch join` somente para `caverna`, `participacoes` e `pessoa`, evitando o problema N+1 ao exibir participantes e papéis, mas sem buscar plano de segurança, autorização, relatório, coletas ou arquivos binários.
+
+A listagem de coletas de uma expedição usa `fetch join` apenas para `setor` e `pesquisadorResponsavel`, que são os dados exibidos na tela.
+As amostras permanecem sob demanda e são consultadas somente quando o usuário abre os detalhes da coleta.
+Para equipamentos disponíveis em uma faixa de datas, a consulta usa `NOT EXISTS` sobre `MovimentacaoEquipamento`, verificando conflito de período sem carregar o histórico completo de movimentações.
+Os downloads de mapa de segurança, autorização ambiental e relatório final são feitos por consultas separadas que selecionam diretamente o campo binário necessário.

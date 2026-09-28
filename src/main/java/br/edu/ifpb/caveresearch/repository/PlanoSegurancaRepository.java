@@ -4,6 +4,7 @@ import br.edu.ifpb.caveresearch.model.entity.PlanoSeguranca;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PlanoSegurancaRepository {
 
@@ -23,5 +24,21 @@ public class PlanoSegurancaRepository {
             """, PlanoSeguranca.class)
                 .setParameter("necessitaEquipeMedica", necessitaEquipeMedica)
                 .getResultList();
+    }
+
+    public Optional<byte[]> baixarMapaRotaPorExpedicao(Long idExpedicao) {
+        List<byte[]> mapas = entityManager.createQuery("""
+            SELECT p.mapaRota
+            FROM PlanoSeguranca p
+            WHERE p.expedicao.idExpedicao = :idExpedicao
+            """, byte[].class)
+                .setParameter("idExpedicao", idExpedicao)
+                .getResultList();
+
+        if (mapas.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(mapas.get(0));
     }
 }

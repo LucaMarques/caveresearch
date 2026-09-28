@@ -5,6 +5,7 @@ import br.edu.ifpb.caveresearch.model.enums.SituacaoRelatorio;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RelatorioFinalRepository {
 
@@ -24,5 +25,21 @@ public class RelatorioFinalRepository {
             """, RelatorioFinal.class)
                 .setParameter("situacao", situacao)
                 .getResultList();
+    }
+
+    public Optional<byte[]> baixarArquivoCompletoPorExpedicao(Long idExpedicao) {
+        List<byte[]> arquivos = entityManager.createQuery("""
+            SELECT r.arquivoCompleto
+            FROM RelatorioFinal r
+            WHERE r.expedicao.idExpedicao = :idExpedicao
+            """, byte[].class)
+                .setParameter("idExpedicao", idExpedicao)
+                .getResultList();
+
+        if (arquivos.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(arquivos.get(0));
     }
 }
