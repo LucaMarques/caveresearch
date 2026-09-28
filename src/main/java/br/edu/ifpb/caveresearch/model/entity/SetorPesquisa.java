@@ -12,6 +12,8 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_setor_pesquisa")
 public class SetorPesquisa {
 
@@ -47,9 +49,11 @@ public class SetorPesquisa {
     @JoinColumn(name = "id_caverna", nullable = false)
     private Caverna caverna;
 
+    @Builder.Default
     @ManyToMany(mappedBy = "setores", fetch = FetchType.LAZY)
     private List<Expedicao> expedicoes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY)
     private List<ColetaCientifica> coletas = new ArrayList<>();
 }

@@ -14,6 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_equipamento")
 public class Equipamento {
 
@@ -51,6 +53,7 @@ public class Equipamento {
     @Column(name = "exige_calibracao", nullable = false)
     private Boolean exigeCalibracao;
 
+    @Builder.Default
     @OneToMany(mappedBy = "equipamento", fetch = FetchType.LAZY)
     private List<MovimentacaoEquipamento> movimentacoes = new ArrayList<>();
 }

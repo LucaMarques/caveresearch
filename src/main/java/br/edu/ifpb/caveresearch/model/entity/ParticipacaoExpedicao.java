@@ -13,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +26,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_participacao_expedicao", uniqueConstraints = @UniqueConstraint(name = "uk_participacao_expedicao_pessoa_expedicao", columnNames = {"id_pessoa", "id_expedicao"}))
 public class ParticipacaoExpedicao {
     @Id

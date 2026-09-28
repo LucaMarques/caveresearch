@@ -5,6 +5,22 @@
              version="3.2">
     <persistence-unit name="caveresearchPU" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>br.edu.ifpb.caveresearch.model.embeddable.Endereco</class>
+        <class>br.edu.ifpb.caveresearch.model.embeddable.Localizacao</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.Amostra</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.AutorizacaoAmbiental</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.Caverna</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.ColetaCientifica</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.Equipamento</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.Expedicao</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.GuiaEspeleologia</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.MovimentacaoEquipamento</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.ParticipacaoExpedicao</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.Pesquisador</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.Pessoa</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.PlanoSeguranca</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.RelatorioFinal</class>
+        <class>br.edu.ifpb.caveresearch.model.entity.SetorPesquisa</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <properties>
@@ -13,7 +29,7 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/caveresearch"/>
             <property name="jakarta.persistence.jdbc.user" value="caveresearch"/>
             <property name="jakarta.persistence.jdbc.password" value="caveresearch"/>
-            <property name="hibernate.hbm2ddl.auto" value="none"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format_sql" value="true"/>
         </properties>

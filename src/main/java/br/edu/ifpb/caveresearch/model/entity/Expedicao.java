@@ -17,6 +17,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +32,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_expedicao")
 public class Expedicao {
     @Id
@@ -72,6 +76,7 @@ public class Expedicao {
     @JoinColumn(name = "id_caverna", nullable = false)
     private Caverna caverna;
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tb_expedicao_setor_pesquisa",
@@ -89,12 +94,15 @@ public class Expedicao {
     @OneToOne(mappedBy = "expedicao", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private RelatorioFinal relatorioFinal;
 
+    @Builder.Default
     @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParticipacaoExpedicao> participacoes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ColetaCientifica> coletas = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY)
     private List<MovimentacaoEquipamento> movimentacoesEquipamento = new ArrayList<>();
 }

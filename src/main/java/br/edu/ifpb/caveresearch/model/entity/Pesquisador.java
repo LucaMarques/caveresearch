@@ -2,6 +2,7 @@ package br.edu.ifpb.caveresearch.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@SuperBuilder
 @Table(name = "tb_pessoa_pesquisador_joined")
 public class Pesquisador extends Pessoa {
     @Column(name = "rg_institucional", nullable = false, unique = true)
@@ -25,6 +27,7 @@ public class Pesquisador extends Pessoa {
     @Column(name = "valor_diario_bolsa", nullable = false, precision = 10, scale = 2)
     private BigDecimal valorDiarioBolsa;
 
+    @Builder.Default
     @OneToMany(mappedBy = "pesquisadorResponsavel", fetch = FetchType.LAZY)
     private List<ColetaCientifica> coletaCientificas = new ArrayList<>();
 }

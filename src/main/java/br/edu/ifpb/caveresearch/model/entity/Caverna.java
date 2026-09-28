@@ -2,6 +2,8 @@ package br.edu.ifpb.caveresearch.model.entity;
 
 import br.edu.ifpb.caveresearch.model.embeddable.Localizacao;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_caverna")
 public class Caverna {
 
@@ -50,9 +54,11 @@ public class Caverna {
     @Column(name = "acesso_permitido", nullable = false)
     private Boolean acessoPermitido;
 
+    @Builder.Default
     @OneToMany(mappedBy = "caverna", fetch = FetchType.LAZY)
     private List<Expedicao> expedicoes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "caverna", fetch = FetchType.LAZY)
     private List<SetorPesquisa> setores = new ArrayList<>();
 }

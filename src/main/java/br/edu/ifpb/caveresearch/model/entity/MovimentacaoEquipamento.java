@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_movimentacao_equipamento")
 public class MovimentacaoEquipamento {
 

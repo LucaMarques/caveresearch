@@ -7,6 +7,8 @@ import lombok.*;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Endereco {
     @Column(name = "logradouro", nullable = false, length = 120)
     private String logradouro;

@@ -13,6 +13,8 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "tb_coleta_cientifica")
 public class ColetaCientifica {
     @Id
@@ -45,6 +47,7 @@ public class ColetaCientifica {
     @Column(name = "situacao_validacao", nullable = false, length = 30)
     private SituacaoValidacaoColeta situacaoDeValidacao;
 
+    @Builder.Default
     @OneToMany(mappedBy = "coleta", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Amostra> amostras = new ArrayList<>();
 

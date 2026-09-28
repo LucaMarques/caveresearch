@@ -2,6 +2,7 @@ package br.edu.ifpb.caveresearch.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@SuperBuilder
 @Table(name = "tb_pessoa_guia_espeleologia_joined")
 public class GuiaEspeleologia extends Pessoa {
     @Column(name = "num_credencial", nullable = false, unique = true)

@@ -3,6 +3,7 @@ package br.edu.ifpb.caveresearch.model.entity;
 import br.edu.ifpb.caveresearch.model.embeddable.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "tb_pessoa")
 public abstract class Pessoa {
@@ -41,9 +43,11 @@ public abstract class Pessoa {
     @Embedded
     private Endereco endereco;
 
+    @Builder.Default
     @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
     private List<ParticipacaoExpedicao> participacoes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "pessoaResponsavel", fetch = FetchType.LAZY)
     private List<MovimentacaoEquipamento> movimentacoesEquipamento = new ArrayList<>();
 }
