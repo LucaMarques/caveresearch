@@ -23,7 +23,7 @@ public class EquipamentoRepositoy {
     return entityManager.createQuery("""
         SELECT e
         FROM Equipamento e
-        WHERE e.situacaoOperacional = :situacao
+        WHERE e.situacaoEquipamento = :situacao
         AND NOT EXISTS (
             SELECT m
             FROM MovimentacaoEquipamento m

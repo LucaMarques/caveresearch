@@ -29,7 +29,7 @@ public class SetorPesquisa {
     @Column(name = "dificuldade", nullable = false)
     private NivelDificuldadeSetor dificuldade;
 
-    @Column(name = "profundidade_maxima", precision = 10, scale = 2)
+    @Column(name = "profundidade_maxima", nullable = false, precision = 10, scale = 2)
     private BigDecimal profundidadeMaxima;
 
     @Column(name = "extensao_aproximada", nullable = false, precision = 10, scale = 2)
