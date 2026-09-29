@@ -31,11 +31,23 @@ public class CavernaRepository {
         entityManager.remove(caverna);
     }
 
-    //consulta a mais do que o crud
+    //queries criadas
+    public List<Caverna> buscarPorMunicipioEAcesso(
+        String municipio,
+        Boolean acessoPermitido) {
 
-    public List<Caverna> buscaComAcessoPermitido(){
         return entityManager.createQuery("""
-        select c from Caverna c where c.acessoPermitido = true
-        """, Caverna.class).getResultList();
+        SELECT c
+        FROM Caverna c
+        WHERE c.municipio = :municipio
+          AND c.acessoPermitido = :acessoPermitido
+        ORDER BY c.nomeOficial
+        """, Caverna.class)
+            .setParameter("municipio", municipio)
+            .setParameter("acessoPermitido", acessoPermitido)
+            .getResultList();
     }
+
+
+
 }
