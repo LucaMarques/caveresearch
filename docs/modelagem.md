@@ -437,3 +437,26 @@ A listagem de coletas de uma expedição usa `fetch join` apenas para `setor` e 
 As amostras permanecem sob demanda e são consultadas somente quando o usuário abre os detalhes da coleta.
 Para equipamentos disponíveis em uma faixa de datas, a consulta usa `NOT EXISTS` sobre `MovimentacaoEquipamento`, verificando conflito de período sem carregar o histórico completo de movimentações.
 Os downloads de mapa de segurança, autorização ambiental e relatório final são feitos por consultas separadas que selecionam diretamente o campo binário necessário.
+
+## Ownership das associações
+
+Em associações bidirecionais da JPA, apenas um dos lados é responsável pela atualização da chave estrangeira ou da tabela associativa.
+
+As principais associações do sistema foram definidas da seguinte maneira:
+
+| Associação | Lado proprietário | Justificativa |
+|---|---|---|
+| `Caverna` → `SetorPesquisa` | `SetorPesquisa` | A FK da caverna está na tabela de setor |
+| `Caverna` → `Expedicao` | `Expedicao` | A expedição contém a FK da caverna |
+| `Expedicao` ↔ `SetorPesquisa` | `Expedicao` | A expedição controla a tabela associativa |
+| `Expedicao` ↔ `PlanoSeguranca` | `PlanoSeguranca` | A FK da expedição está no plano |
+| `Expedicao` ↔ `AutorizacaoAmbiental` | `AutorizacaoAmbiental` | A FK da expedição está na autorização |
+| `Expedicao` ↔ `RelatorioFinal` | `RelatorioFinal` | A FK da expedição está no relatório |
+| `Expedicao` → `ParticipacaoExpedicao` | `ParticipacaoExpedicao` | A entidade associativa possui as FKs |
+| `Pessoa` → `ParticipacaoExpedicao` | `ParticipacaoExpedicao` | A participação referencia a pessoa |
+| `ColetaCientifica` → `Amostra` | `Amostra` | A FK da coleta está na amostra |
+| `Equipamento` → `MovimentacaoEquipamento` | `MovimentacaoEquipamento` | A movimentação referencia o equipamento |
+
+Nos lados inversos foi utilizado `mappedBy`, evitando a criação indevida de tabelas ou colunas adicionais.
+
+---

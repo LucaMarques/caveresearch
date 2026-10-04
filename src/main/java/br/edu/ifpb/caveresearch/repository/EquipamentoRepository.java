@@ -7,11 +7,11 @@ import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class EquipamentoRepositoy {
+public class EquipamentoRepository {
 
   private EntityManager entityManager;
 
-  public EquipamentoRepositoy(EntityManager entityManager){
+  public EquipamentoRepository(EntityManager entityManager){
     this.entityManager = entityManager;
   }
 

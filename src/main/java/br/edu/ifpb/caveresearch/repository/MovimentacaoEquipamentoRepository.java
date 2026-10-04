@@ -21,7 +21,7 @@ public class MovimentacaoEquipamentoRepository {
         FROM MovimentacaoEquipamento m
         JOIN FETCH m.expedicao
         JOIN FETCH m.pessoaResponsavel
-        WHERE m.equipamento.id = :idEquipamento
+        WHERE m.equipamento.idEquipamento = :idEquipamento
         ORDER BY m.dataHoraRetirada DESC
         """, MovimentacaoEquipamento.class)
             .setParameter("idEquipamento", idEquipamento)

@@ -26,7 +26,7 @@ public class PesquisadorRepository {
         }
     }
 
-    // Lista pesquisadores que não fizeram coletas
+    // Lista pesquisadores que fizeram coletas
     public static void pesquisadoresColetas(EntityManager em) {
         TypedQuery<Pesquisador> consultaPesquisadorColeta = em.createQuery(
                 "select p " +
