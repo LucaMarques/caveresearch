@@ -56,4 +56,22 @@ public class SetorPesquisa {
     @Builder.Default
     @OneToMany(mappedBy = "setor", fetch = FetchType.LAZY)
     private List<ColetaCientifica> coletas = new ArrayList<>();
+
+    public void addExpedicao(Expedicao expedicao) {
+        if (expedicao != null && this.expedicoes != null) {
+            if (!this.expedicoes.contains(expedicao)) {
+                this.expedicoes.add(expedicao);
+            }
+            if (expedicao.getSetores() != null && !expedicao.getSetores().contains(this)) {
+                expedicao.getSetores().add(this);
+            }
+        }
+    }
+
+    public void addColeta(ColetaCientifica coleta) {
+        if (coleta != null && this.coletas != null) {
+            this.coletas.add(coleta);
+            coleta.setSetor(this);
+        }
+    }
 }
