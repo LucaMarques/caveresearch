@@ -13,14 +13,34 @@ public class PesquisadorRepository {
         this.entityManager = entityManager;
     }
 
-    // Lista todos os pesquisadores por area
-    public static void listarPesquisador(EntityManager em, String area) {
-        TypedQuery<Pesquisador> consultaPesquisador = em.createQuery(
+    public List<Pesquisador> buscarPorArea(String area) {
+        TypedQuery<Pesquisador> consultaPesquisador = entityManager.createQuery(
                 "select p " +
                         "from Pesquisador p " +
                         "where lower(p.areaPrincipalPesquisa) like lower(:area)", Pesquisador.class);
         consultaPesquisador.setParameter("area", "%" + area + "%");
-        List<Pesquisador> pesquisadorList = consultaPesquisador.getResultList();
+        return consultaPesquisador.getResultList();
+    }
+
+    public List<Pesquisador> buscarComColetas() {
+        TypedQuery<Pesquisador> consultaPesquisadorColeta = entityManager.createQuery(
+                "select p " +
+                        "from Pesquisador p " +
+                        "where p.coletaCientificas is not empty ", Pesquisador.class);
+        return consultaPesquisadorColeta.getResultList();
+    }
+
+    public List<Pesquisador> buscarPorBolsaAcimaDaMedia() {
+        TypedQuery<Pesquisador> consulta = entityManager.createNamedQuery(
+                "Pesquisador.listarPesquisadorPorBolsa",
+                Pesquisador.class
+        );
+        return consulta.getResultList();
+    }
+
+    // Lista todos os pesquisadores por area
+    public static void listarPesquisador(EntityManager em, String area) {
+        List<Pesquisador> pesquisadorList = new PesquisadorRepository(em).buscarPorArea(area);
         for (Pesquisador p : pesquisadorList) {
             System.out.println(p);
         }
@@ -28,12 +48,7 @@ public class PesquisadorRepository {
 
     // Lista pesquisadores que fizeram coletas
     public static void pesquisadoresColetas(EntityManager em) {
-        TypedQuery<Pesquisador> consultaPesquisadorColeta = em.createQuery(
-                "select p " +
-                        "from Pesquisador p " +
-                        "where p.coletaCientificas is not empty ", Pesquisador.class);
-
-        List<Pesquisador> listaPesquisadores = consultaPesquisadorColeta.getResultList();
+        List<Pesquisador> listaPesquisadores = new PesquisadorRepository(em).buscarComColetas();
 
         for (Pesquisador p : listaPesquisadores) {
             System.out.println(p);
@@ -41,8 +56,7 @@ public class PesquisadorRepository {
     }
 
     public static void pesquisadorMediaBolsa(EntityManager em) {
-        TypedQuery<Pesquisador> consulta = em.createNamedQuery("Pesquisador.listarPesquisadorPorBolsa", Pesquisador.class);
-        List<Pesquisador> lista = consulta.getResultList();
+        List<Pesquisador> lista = new PesquisadorRepository(em).buscarPorBolsaAcimaDaMedia();
 
         for (Pesquisador p : lista) {
             System.out.println(p);

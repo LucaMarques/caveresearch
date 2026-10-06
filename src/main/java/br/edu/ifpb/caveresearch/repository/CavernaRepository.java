@@ -14,7 +14,6 @@ public class CavernaRepository {
         this.entityManager = entityManager;
     }
 
-    //crud basicão
     public void salvar(Caverna caverna) {
         entityManager.persist(caverna);
     }
@@ -31,7 +30,6 @@ public class CavernaRepository {
         entityManager.remove(caverna);
     }
 
-    //queries criadas
     public List<Caverna> buscarPorMunicipioEAcesso(
         String municipio,
         Boolean acessoPermitido) {
