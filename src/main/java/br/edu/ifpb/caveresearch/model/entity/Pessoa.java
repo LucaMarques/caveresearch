@@ -50,4 +50,18 @@ public abstract class Pessoa {
     @Builder.Default
     @OneToMany(mappedBy = "pessoaResponsavel", fetch = FetchType.LAZY)
     private List<MovimentacaoEquipamento> movimentacoesEquipamento = new ArrayList<>();
+
+    public void addParticipacao(ParticipacaoExpedicao participacao) {
+        if (participacao != null && this.participacoes != null) {
+            this.participacoes.add(participacao);
+            participacao.setPessoa(this);
+        }
+    }
+
+    public void addMovimentacaoEquipamento(MovimentacaoEquipamento movimentacao) {
+        if (movimentacao != null && this.movimentacoesEquipamento != null) {
+            this.movimentacoesEquipamento.add(movimentacao);
+            movimentacao.setPessoaResponsavel(this);
+        }
+    }
 }

@@ -30,4 +30,11 @@ public class Pesquisador extends Pessoa {
     @Builder.Default
     @OneToMany(mappedBy = "pesquisadorResponsavel", fetch = FetchType.LAZY)
     private List<ColetaCientifica> coletaCientificas = new ArrayList<>();
+
+    public void addColetaCientifica(ColetaCientifica coletaCientifica) {
+        if (coletaCientifica != null && this.coletaCientificas != null) {
+            this.coletaCientificas.add(coletaCientifica);
+            coletaCientifica.setPesquisadorResponsavel(this);
+        }
+    }
 }

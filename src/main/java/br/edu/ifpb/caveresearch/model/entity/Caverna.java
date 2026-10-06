@@ -61,4 +61,18 @@ public class Caverna {
     @Builder.Default
     @OneToMany(mappedBy = "caverna", fetch = FetchType.LAZY)
     private List<SetorPesquisa> setores = new ArrayList<>();
+
+    public void addExpedicao(Expedicao expedicao) {
+        if (expedicao != null && this.expedicoes != null) {
+            this.expedicoes.add(expedicao);
+            expedicao.setCaverna(this);
+        }
+    }
+
+    public void addSetor(SetorPesquisa setor) {
+        if (setor != null && this.setores != null) {
+            this.setores.add(setor);
+            setor.setCaverna(this);
+        }
+    }
 }

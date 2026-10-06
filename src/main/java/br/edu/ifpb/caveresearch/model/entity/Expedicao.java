@@ -105,4 +105,57 @@ public class Expedicao {
     @Builder.Default
     @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY)
     private List<MovimentacaoEquipamento> movimentacoesEquipamento = new ArrayList<>();
+
+    public void addSetor(SetorPesquisa setor) {
+        if (setor != null && this.setores != null) {
+            if (!this.setores.contains(setor)) {
+                this.setores.add(setor);
+            }
+            if (setor.getExpedicoes() != null && !setor.getExpedicoes().contains(this)) {
+                setor.getExpedicoes().add(this);
+            }
+        }
+    }
+
+    public void addPlanoSeguranca(PlanoSeguranca planoSeguranca) {
+        if (planoSeguranca != null) {
+            this.planoSeguranca = planoSeguranca;
+            planoSeguranca.setExpedicao(this);
+        }
+    }
+
+    public void addAutorizacaoAmbiental(AutorizacaoAmbiental autorizacaoAmbiental) {
+        if (autorizacaoAmbiental != null) {
+            this.autorizacaoAmbiental = autorizacaoAmbiental;
+            autorizacaoAmbiental.setExpedicao(this);
+        }
+    }
+
+    public void addRelatorioFinal(RelatorioFinal relatorioFinal) {
+        if (relatorioFinal != null) {
+            this.relatorioFinal = relatorioFinal;
+            relatorioFinal.setExpedicao(this);
+        }
+    }
+
+    public void addParticipacao(ParticipacaoExpedicao participacao) {
+        if (participacao != null && this.participacoes != null) {
+            this.participacoes.add(participacao);
+            participacao.setExpedicao(this);
+        }
+    }
+
+    public void addColeta(ColetaCientifica coleta) {
+        if (coleta != null && this.coletas != null) {
+            this.coletas.add(coleta);
+            coleta.setExpedicao(this);
+        }
+    }
+
+    public void addMovimentacaoEquipamento(MovimentacaoEquipamento movimentacao) {
+        if (movimentacao != null && this.movimentacoesEquipamento != null) {
+            this.movimentacoesEquipamento.add(movimentacao);
+            movimentacao.setExpedicao(this);
+        }
+    }
 }

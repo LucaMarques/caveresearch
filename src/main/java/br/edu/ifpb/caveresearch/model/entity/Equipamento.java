@@ -56,4 +56,11 @@ public class Equipamento {
     @Builder.Default
     @OneToMany(mappedBy = "equipamento", fetch = FetchType.LAZY)
     private List<MovimentacaoEquipamento> movimentacoes = new ArrayList<>();
+
+    public void addMovimentacao(MovimentacaoEquipamento movimentacao) {
+        if (movimentacao != null && this.movimentacoes != null) {
+            this.movimentacoes.add(movimentacao);
+            movimentacao.setEquipamento(this);
+        }
+    }
 }
