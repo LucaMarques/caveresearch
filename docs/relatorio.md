@@ -1,18 +1,18 @@
-# Relatorio de consultas da aplicacao
+# Relatorio de consultas da aplicação
 
-O relatorio foi feito dentro da classe `Application`, usando o proprio menu da aplicacao. A opcao criada para isso e:
+O relatório foi feito dentro da classe `Application`, usando o próprio menu da aplicação A opção criada para isso e:
 
 ```text
 19 - Gerar relatorio com uma amostra de cada busca
 ```
 
-Ao escolher essa opcao, o metodo `gerarRelatorioBuscas` e executado. Ele nao percorre todos os dados retornados pelas consultas; para cada busca, ele chama o metodo correspondente no repository e mostra apenas o primeiro resultado encontrado.
+Ao escolher essa opção, o método `gerarRelatorioBuscas` e executado. Ele nao percorre todos os dados retornados pelas consultas; para cada busca, ele chama o método correspondente no repository e mostra apenas o primeiro resultado encontrado.
 
-Antes de chamar algumas consultas, o metodo busca um registro base de cada entidade necessaria, como `Caverna`, `Expedicao`, `ColetaCientifica`, `Equipamento`, `Pesquisador`, `PlanoSeguranca`, `RelatorioFinal` e `SetorPesquisa`. Esses registros base servem apenas para montar os parametros exigidos pelas buscas.
+Antes de chamar algumas consultas, o método busca um registro base de cada entidade necessaria, como `Caverna`, `Expedicao`, `ColetaCientifica`, `Equipamento`, `Pesquisador`, `PlanoSeguranca`, `RelatorioFinal` e `SetorPesquisa`. Esses registros base servem apenas para montar os parâmetros exigidos pelas buscas.
 
-## Consultas chamadas no relatorio
+## Consultas chamadas no relatório
 
-O comando da aplicacao chama as seguintes buscas:
+O comando da aplicação chama as seguintes buscas:
 
 - `CavernaRepository.findById`
 - `CavernaRepository.buscarPorMunicipioEAcesso`
@@ -35,7 +35,7 @@ O comando da aplicacao chama as seguintes buscas:
 
 ## Saida exibida
 
-A saida:
+A saída:
 
 ```text
 === Relatorio de consultas dos repositories ===
@@ -61,4 +61,4 @@ A saida:
 
 ## Relacao com as opcoes individuais
 
-As opcoes de `1` a `18` permitem executar cada busca separadamente pelo menu. A opcao `19` centraliza essas mesmas buscas em um unico relatorio, usando uma amostra de cada consulta.
+As opções de `1` a `18` permitem executar cada busca separadamente pelo menu. A opção `19` centraliza essas mesmas buscas em um único relatório, usando uma amostra de cada consulta.

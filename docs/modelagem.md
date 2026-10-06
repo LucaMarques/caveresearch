@@ -1,8 +1,8 @@
 # Modelagem Conceitual
 
-Este documento registra a modelagem conceitual do dominio caveresearch. A etapa atual descreve entidades persistentes, objetos incorporaveis, enumeracoes e relacionamentos principais alinhados ao modelo Java.
+Este documento registra a modelagem conceitual do domínio caveresearch. A etapa atual descreve entidades persistentes, objetos incorporáveis, enumerações e relacionamentos principais alinhados ao modelo Java.
 
-`Pessoa` foi planejada como superclasse abstrata de uma hierarquia JPA com estrategia `JOINED`, contendo pelo menos `Pesquisador` e `GuiaEspeleologia`. `Localizacao` e `Endereco` foram modelados como objetos incorporaveis, sem identidade propria e sem tabela propria.
+`Pessoa` foi planejada como superclasse abstrata de uma hierarquia JPA com estrategia `JOINED`, contendo pelo menos `Pesquisador` e `GuiaEspeleologia`. `Localizacao` e `Endereco` foram modelados como objetos incorporáveis, sem identidade propria e sem tabela propria.
 
 ```mermaid
 classDiagram
@@ -358,7 +358,7 @@ classDiagram
 ## Observacoes de modelagem
 
 - `ParticipacaoExpedicao` e uma entidade associativa planejada entre `Pessoa` e `Expedicao`, com identidade propria.
-- A combinacao entre pessoa e expedicao em `ParticipacaoExpedicao` devera ser unica quando o mapeamento persistente for implementado.
+- A combinação entre pessoa e expedição em `ParticipacaoExpedicao` devera ser unica quando o mapeamento persistente for implementado.
 - `Expedicao` deve possuir exatamente um `PlanoSeguranca`.
 - `AutorizacaoAmbiental` e `RelatorioFinal` sao opcionais para uma `Expedicao`.
 - Os valores dos enums foram alinhados com as classes Java em `model.enums`.
