@@ -4,7 +4,9 @@ Sistema academico para modelagem e persistencia de informacoes relacionadas a ex
 
 ## Objetivo
 
-O projeto tem como objetivo transformar regras de negocio de um dominio de expedicoes cientificas em um modelo orientado a objetos Java e, posteriormente, realizar seu mapeamento objeto-relacional utilizando Jakarta Persistence/JPA e PostgreSQL.
+O projeto transforma regras de negocio de um dominio de expedicoes cientificas em um modelo orientado a objetos Java, com mapeamento objeto-relacional usando Jakarta Persistence/JPA, Hibernate ORM e PostgreSQL.
+
+Atualmente a aplicacao roda pelo console e permite popular o banco com dados iniciais, executar consultas do dominio e gerar um relatorio com uma amostra das buscas implementadas.
 
 ## Dominio
 
@@ -12,9 +14,9 @@ O sistema representa uma organizacao de pesquisa ambiental responsavel por exped
 
 - cavernas;
 - setores de pesquisa;
-- pessoas e suas especializacoes;
+- pessoas, pesquisadores e guias de espeleologia;
 - expedicoes;
-- participantes;
+- participantes de expedicoes;
 - planos de seguranca;
 - autorizacoes ambientais;
 - equipamentos;
@@ -25,31 +27,44 @@ O sistema representa uma organizacao de pesquisa ambiental responsavel por exped
 
 ## Tecnologias
 
-Nesta etapa:
-
 - Java 25
 - Maven Wrapper com Apache Maven 3.9.16
-- Jakarta Persistence/JPA
+- Jakarta Persistence/JPA 3.2
 - Hibernate ORM
 - PostgreSQL
+- Narayana JTA
 - Lombok
 - Docker
 - Docker Compose
 - Git
 
-Planejadas para as proximas etapas:
+Jakarta Persistence/JPA define a especificacao usada para persistencia. Hibernate ORM e o provider JPA. PostgreSQL e o banco de dados local. Narayana JTA fornece a transacao JTA usada no seed, e Lombok reduz boilerplate nas entidades e embeddables.
 
-- entidades JPA;
-- objetos incorporaveis com `@Embedded`;
-- heranca JPA com estrategia `JOINED`;
-- consultas JPA;
-- regras de negocio.
+## Implementacao atual
 
-Jakarta Persistence/JPA define a especificacao utilizada para persistencia. Hibernate ORM e o provider utilizado para implementar essa especificacao. PostgreSQL e o banco de dados do projeto. Lombok fica disponivel apenas para reduzir boilerplate Java em etapas futuras.
+O projeto ja contem:
 
-## Modelagem
+- entidades JPA em `src/main/java/br/edu/ifpb/caveresearch/model/entity`;
+- objetos incorporaveis `Endereco` e `Localizacao`;
+- enums do dominio em `model/enums`;
+- heranca JPA `JOINED` em `Pessoa`, com subclasses `Pesquisador` e `GuiaEspeleologia`;
+- relacionamentos JPA `OneToOne`, `OneToMany`, `ManyToOne` e `ManyToMany`;
+- campos binarios mapeados com `@Lob` para arquivos, mapas e fotografias;
+- `persistence.xml` com a unidade `caveresearchPU`;
+- `orm.xml` com named queries;
+- repositories com consultas JPQL, `JOIN FETCH`, projections e downloads de campos binarios;
+- DTO `ExpedicaoResumo` para consulta projetada;
+- seed de dados em `DatabaseSeeder`;
+- menu de console em `Application`;
+- documentacao de modelagem e consultas em `docs/`.
 
-A documentacao conceitual do dominio e o diagrama UML em Mermaid estao em [docs/modelagem.md](docs/modelagem.md).
+Ainda nao ha API REST, controllers web, camada de services separada, migrations ou testes automatizados. O schema local e atualizado pelo Hibernate via `hibernate.hbm2ddl.auto=update`.
+
+## Documentacao
+
+- [Modelagem conceitual](docs/modelagem.md)
+- [Relatorio de consultas da aplicacao](docs/relatorio.md)
+- [Tratamento de buscas N+1](docs/BuscasN+1.md)
 
 ## Banco local
 
@@ -94,21 +109,19 @@ docker compose down -v
 
 O comando `docker compose down -v` apaga os dados locais armazenados no volume do PostgreSQL.
 
-## Aplicacao
+## Configuracao JPA
 
-Pre-requisitos para execucao local:
+`JpaUtil` centraliza a criacao do `EntityManagerFactory` e usa a unidade de persistencia `caveresearchPU`.
 
-- Java 25 ou superior;
-- PostgreSQL local iniciado pelo Docker Compose.
+Por padrao, a conexao usa:
 
-A configuracao JPA usa, por padrao, os mesmos valores definidos em `.env.example`:
-
+- host: `localhost`
+- porta: `5432`
 - banco: `caveresearch`
 - usuario: `caveresearch`
 - senha: `caveresearch`
-- porta: `5432`
 
-`JpaUtil` centraliza a criacao do `EntityManagerFactory` e pode ler as variaveis de ambiente abaixo:
+As seguintes variaveis de ambiente podem sobrescrever a configuracao padrao:
 
 - `POSTGRES_HOST`
 - `POSTGRES_PORT`
@@ -116,10 +129,18 @@ A configuracao JPA usa, por padrao, os mesmos valores definidos em `.env.example
 - `POSTGRES_USER`
 - `POSTGRES_PASSWORD`
 
+## Execucao
+
+Pre-requisitos:
+
+- JDK 25 ou superior;
+- Docker e Docker Compose;
+- PostgreSQL iniciado com `docker compose up -d`.
+
 Para compilar no Windows:
 
 ```bash
-mvnw.cmd clean compile
+.\mvnw.cmd clean compile
 ```
 
 Para compilar no Linux/macOS:
@@ -128,21 +149,39 @@ Para compilar no Linux/macOS:
 ./mvnw clean compile
 ```
 
-O PostgreSQL deve estar em execucao antes do uso efetivo da unidade de persistencia.
+Para executar a aplicacao pela IDE, rode a classe:
 
-## Estado atual
+```text
+br.edu.ifpb.caveresearch.Application
+```
 
-Esta etapa contem:
+Tambem e possivel executar pelo Maven:
 
-- infraestrutura PostgreSQL com Docker;
-- bootstrap Java com Maven;
-- configuracao de persistencia JPA para PostgreSQL;
-- Hibernate ORM como provider JPA;
-- Lombok configurado para uso futuro;
-- documentacao inicial do dominio;
-- UML conceitual em Mermaid.
+```bash
+.\mvnw.cmd exec:java -Dexec.mainClass="br.edu.ifpb.caveresearch.Application"
+```
 
-Ainda nao existem entidades JPA, objetos incorporaveis implementados, enums do dominio, repositories, services, controllers, DTOs, consultas JPA, migrations, testes automatizados, API REST ou regras de negocio.
+No Linux/macOS:
 
-Java 25 foi adotado como decisao de implementacao por ser a versao LTS atual e ser compativel com Jakarta Persistence 3.2 e Hibernate ORM 7.4. O enunciado nao determina uma versao especifica de Java.
-O Maven Wrapper foi configurado com Apache Maven 3.9.16 por ser a versao estavel recomendada da serie 3.9. O Lombok permanece em 1.18.46, versao atual estavel, configurado como dependencia `provided` e annotation processor.
+```bash
+./mvnw exec:java -Dexec.mainClass="br.edu.ifpb.caveresearch.Application"
+```
+
+## Menu da aplicacao
+
+A aplicacao de console disponibiliza consultas individuais e tarefas auxiliares. As principais opcoes sao:
+
+- listar expedicoes por periodo e situacao;
+- carregar detalhes de uma expedicao com participantes;
+- listar coletas e amostras;
+- buscar cavernas por id, municipio e permissao de acesso;
+- listar equipamentos disponiveis por periodo;
+- consultar historico de movimentacao de equipamento;
+- buscar pesquisadores por area, coletas e bolsa acima da media;
+- consultar planos de seguranca, relatorios finais e setores;
+- gerar um relatorio com uma amostra de cada busca;
+- popular o banco com dados iniciais.
+
+Use a opcao `20` para popular o banco. O seed e ignorado quando ja existem pessoas cadastradas.
+
+Use a opcao `19` para gerar o relatorio consolidado das consultas implementadas.
